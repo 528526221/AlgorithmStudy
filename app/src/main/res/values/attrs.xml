@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IrregularLayout">
+        <attr name="ItemHorSpace" format="dimension"/>
+        <attr name="ItemVerSpace" format="dimension"/>
+    </declare-styleable>
+</resources>
