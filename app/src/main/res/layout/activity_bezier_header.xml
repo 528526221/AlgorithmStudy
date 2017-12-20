@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="#e12828"></View>
+    <com.xulc.algorithmstudy.StudyRefreshView
+        android:id="@+id/studyRefreshView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#e12828">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#e4dfdf"
+            android:overScrollMode="never"/>
+    </com.xulc.algorithmstudy.StudyRefreshView>
+</LinearLayout>

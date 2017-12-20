@@ -23,6 +23,8 @@
         <activity android:name=".StudyActivity" android:screenOrientation="portrait"/>
         <activity android:name=".LearnActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ViewPagerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".TestIrregularActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".BezierHeaderActivity" android:screenOrientation="portrait"/>
 
     </application>
 

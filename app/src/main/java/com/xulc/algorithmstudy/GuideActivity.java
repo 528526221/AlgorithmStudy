@@ -43,4 +43,13 @@ public class GuideActivity extends AppCompatActivity {
     public void openViewPager(View view) {
         startActivity(new Intent(this,ViewPagerActivity.class));
     }
+
+    public void openIrregular(View view) {
+        startActivity(new Intent(this,TestIrregularActivity.class));
+
+    }
+
+    public void openBezierHeaderView(View view) {
+        startActivity(new Intent(this,BezierHeaderActivity.class));
+    }
 }

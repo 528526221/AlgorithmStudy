@@ -193,7 +193,8 @@ public class SwipeRefreshLoadLayout extends SwipeRefreshLayout {
      */
     public void refreshFinish(){
         this.setRefreshing(false);
-        iFootCallBack.reset();
+        if (iFootCallBack!=null)
+            iFootCallBack.reset();
     }
 
     /**

@@ -11,9 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 import android.widget.AdapterView;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -119,13 +117,7 @@ public class StudyRefreshView extends ViewGroup {
                 removeView(mHeader);
                 mHeader = customHeaderView;
                 headerCallBack = (IHeaderCallBack) mHeader;
-                if (customHeaderView instanceof LinearLayout){
-                    addView(mHeader,1,new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-                }else if (customHeaderView instanceof RelativeLayout){
-                    addView(mHeader,1,new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-                }else if (customHeaderView instanceof FrameLayout){
-                    addView(mHeader,1,new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-                }
+                addView(mHeader,new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT) );
             }
         }else {
             throw new RuntimeException("The custom header view must implementes IHeaderCallBack");
@@ -143,13 +135,8 @@ public class StudyRefreshView extends ViewGroup {
                 removeView(mFooter);
                 mFooter = customFooterView;
                 footerCallBack = (IFooterCallBack) mFooter;
-                if (customFooterView instanceof LinearLayout){
-                    addView(mFooter,2,new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-                }else if (customFooterView instanceof RelativeLayout){
-                    addView(mFooter,2,new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-                }else if (customFooterView instanceof FrameLayout){
-                    addView(mFooter,2,new FrameLayout.LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
-                }
+                addView(mFooter,2,new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.WRAP_CONTENT));
+
             }
         }else {
             throw new RuntimeException("The custom footer view must implementes IFooterCallBack");
@@ -172,10 +159,10 @@ public class StudyRefreshView extends ViewGroup {
             //遍历所有子控件 放置好位置
             View child = getChildAt(i);
             if (child == mHeader){
-                headViewHeight = mHeader.getHeight();
+                headViewHeight = mHeader.getMeasuredHeight();
                 child.layout(0,-child.getMeasuredHeight(),child.getMeasuredWidth(),0);
             }else if (child == mFooter){
-                footViewHeight = mFooter.getHeight();
+                footViewHeight = mFooter.getMeasuredHeight();
                 //有一种特殊情况： 当前内容未填满一屏，希望footer出现在最底部
                 if (mContentLayoutHeight<getHeight()){
                     child.layout(0,getHeight()-child.getMeasuredHeight(),child.getMeasuredWidth(),getHeight());
@@ -583,6 +570,7 @@ public class StudyRefreshView extends ViewGroup {
      */
     private void startSlowScroll(int startY,int offsetY){
         mScroller.startScroll(0,startY,0,offsetY);//默认250ms
+        postInvalidate();
     }
 
     @Override
