@@ -34,7 +34,7 @@ public class BezierHeaderView extends LinearLayout implements StudyRefreshView.I
         bezierView = findViewById(R.id.bezierView);
         ivInlife = findViewById(R.id.ivInlife);
         //定义缩放动画
-        scaleAnimation = new ScaleAnimation(1.0f,1.4f,1.0f,1.4f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+        scaleAnimation = new ScaleAnimation(1.0f,1.2f,1.0f,1.2f,Animation.RELATIVE_TO_SELF,0.5f,Animation.RELATIVE_TO_SELF,0.5f);
         scaleAnimation.setDuration(200);
         scaleAnimation.setRepeatCount(-1);
         scaleAnimation.setRepeatMode(Animation.REVERSE);

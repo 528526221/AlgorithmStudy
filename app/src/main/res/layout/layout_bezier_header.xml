@@ -8,10 +8,10 @@
         android:layout_height="match_parent" />
     <ImageView
         android:id="@+id/ivInlife"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="18dp"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="12dp"
         android:src="@mipmap/inlife" />
 </RelativeLayout>
