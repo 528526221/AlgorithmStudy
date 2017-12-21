@@ -13,7 +13,7 @@ import android.view.View;
 
 /**
  * Date：2017/12/20
- * Desc：
+ * Desc：贝塞尔函数曲线
  * Created by xuliangchun.
  */
 
@@ -114,6 +114,10 @@ public class BezierView extends View {
 
     }
 
+    /**
+     * 绘制上弹-下弹-归位
+     * @param canvas
+     */
     private void drawBounceTop(Canvas canvas){
         mPaint.setColor(Color.parseColor("#ffffff"));
         mPath.reset();
@@ -166,10 +170,14 @@ public class BezierView extends View {
             }
         });
     }
+
+    /**
+     * 上弹-下弹—归位
+     */
     private void startBounceTopAnimator(){
-        //即将开始上弹动画
+        //二阶贝塞尔的控制点暂时还没有搞明白，所以这个地方控制点的坐标只是自己修正的
         canvasType = 3;
-        ValueAnimator animator1 = ValueAnimator.ofInt(bounceDistance,-bounceDistance+10,2*bounceDistance,bounceDistance);
+        ValueAnimator animator1 = ValueAnimator.ofInt(bounceDistance,-bounceDistance+5,2*bounceDistance,bounceDistance);
         animator1.setDuration(250);
         animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
