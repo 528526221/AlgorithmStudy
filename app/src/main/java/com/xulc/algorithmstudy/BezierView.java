@@ -169,7 +169,7 @@ public class BezierView extends View {
     private void startBounceTopAnimator(){
         //即将开始上弹动画
         canvasType = 3;
-        ValueAnimator animator1 = ValueAnimator.ofInt(bounceDistance,-bounceDistance+10,3*bounceDistance,bounceDistance);
+        ValueAnimator animator1 = ValueAnimator.ofInt(bounceDistance,-bounceDistance+10,2*bounceDistance,bounceDistance);
         animator1.setDuration(250);
         animator1.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
             @Override
