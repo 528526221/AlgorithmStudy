@@ -25,7 +25,7 @@ public class BezierView extends View {
 
     private int bounceDistance = 40;//给刷新完成的线上下弹动预留的距离
 
-    private int canvasType;
+    private int canvasType;//标记
 
     public BezierView(Context context) {
         this(context, null);
@@ -63,6 +63,10 @@ public class BezierView extends View {
 
     }
 
+    /**
+     * 在下拉header时重绘
+     * @param offsetY
+     */
     public void setOffsetY(int offsetY) {
         this.offsetY = offsetY;
         this.canvasType = 1;
@@ -173,6 +177,7 @@ public class BezierView extends View {
 
     /**
      * 上弹-下弹—归位
+     * 这一步本来可以交给插值器来做，但是默认的几种不符合需求，自定义的话还不太会，所以就多做一步这个
      */
     private void startBounceTopAnimator(){
         //二阶贝塞尔的控制点暂时还没有搞明白，所以这个地方控制点的坐标只是自己修正的
