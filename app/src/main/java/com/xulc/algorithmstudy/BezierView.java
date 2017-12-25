@@ -26,7 +26,6 @@ public class BezierView extends View {
     private int bounceDistance = 40;//给刷新完成的线上下弹动预留的距离
 
     private int canvasType;//标记
-
     public BezierView(Context context) {
         this(context, null);
     }
