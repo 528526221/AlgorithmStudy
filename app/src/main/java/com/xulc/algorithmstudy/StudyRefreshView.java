@@ -196,23 +196,30 @@ public class StudyRefreshView extends ViewGroup {
                 break;
             case MotionEvent.ACTION_MOVE:
                 int dy = mLastMoveY - y;
-                if (getScrollY() <= 0 && dy <= 0) {
-                    // 一直在下拉
-                    if (getScrollY() <= -headViewHeight) {
-                        scrollBy(0, dy / 10);
-                    } else {
-                        scrollBy(0, dy / 3);
-                    }
-                } else if (getScrollY() >= 0 && dy >= 0) {
-                    // 一直在上拉
-                    if (getScrollY() >= footViewHeight) {
-                        scrollBy(0, dy / 10);
-                    } else {
-                        scrollBy(0, dy / 3);
-                    }
-                } else {
+                if (dy<=0&&getScrollY() <= -headViewHeight){
+                    scrollBy(0, dy / 10);
+                }else if (dy>=0&&getScrollY() >= footViewHeight){
+                    scrollBy(0, dy / 10);
+                }else {
                     scrollBy(0, dy / 3);
                 }
+//                if (getScrollY() <= 0 && dy <= 0) {
+//                    // 一直在下拉
+//                    if (getScrollY() <= -headViewHeight) {
+//                        scrollBy(0, dy / 10);
+//                    } else {
+//                        scrollBy(0, dy / 3);
+//                    }
+//                } else if (getScrollY() >= 0 && dy >= 0) {
+//                    // 一直在上拉
+//                    if (getScrollY() >= footViewHeight) {
+//                        scrollBy(0, dy / 10);
+//                    } else {
+//                        scrollBy(0, dy / 3);
+//                    }
+//                } else {
+//                    scrollBy(0, dy / 3);
+//                }
                 updateHeader();
                 updateFooter();
                 break;
