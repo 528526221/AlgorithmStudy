@@ -41,10 +41,7 @@ public class StudyRefreshView extends ViewGroup {
     private IHeaderCallBack headerCallBack;//自定义header的回调
     private IFooterCallBack footerCallBack;//自定义footer的回调
     private Scroller mScroller;
-
-    private int mCurrentY;//滑动时y的当前值
     private int mLastMoveY;//滑动时y的上次值
-    private int mDistanceY;//滑动两次y的距离
     private boolean loadNoMoreData;//上拉没有更多数据
 
 
@@ -179,140 +176,95 @@ public class StudyRefreshView extends ViewGroup {
     }
 
     @Override
-    public boolean onTouchEvent(MotionEvent event) {
+    public void requestDisallowInterceptTouchEvent(boolean disallowIntercept) {
+        //ViewGroup有一个disallowIntercept开关，可以设置此ViewGroup是否屏蔽onInterceptTouchEvent事件。
+        //如果开启此开关，则此ViewGroup跳过自身的onInterceptTouchEvent事件，直接dispatchTouchEvent到子View。
+        //disallowIntercept，会在每次ACTION_DOWN被重置，默认为允许调用onInterceptTouchEvent。
+        //NONE即可无视开关
+    }
 
-        dealWithTouchEvent(event);
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if (mStatus == Status.REFRESHING || mStatus == Status.LOADING){
+            return true;
+        }
+        int y = (int) event.getY();
+
+        switch (event.getAction()){
+            case MotionEvent.ACTION_DOWN:
+                mLastMoveY = y;
+                break;
+            case MotionEvent.ACTION_MOVE:
+                int dy = mLastMoveY - y;
+                if (getScrollY() <= 0 && dy <= 0) {
+                    // 一直在下拉
+                    if (getScrollY() <= -headViewHeight) {
+                        scrollBy(0, dy / 10);
+                    } else {
+                        scrollBy(0, dy / 3);
+                    }
+                } else if (getScrollY() >= 0 && dy >= 0) {
+                    // 一直在上拉
+                    if (getScrollY() >= footViewHeight) {
+                        scrollBy(0, dy / 10);
+                    } else {
+                        scrollBy(0, dy / 3);
+                    }
+                } else {
+                    scrollBy(0, dy / 3);
+                }
+                updateHeader();
+                updateFooter();
+                break;
+            case MotionEvent.ACTION_UP:
+                if (getScrollY() <= -headViewHeight) {
+                    // 下拉刷新，并且到达有效长度
+                    startRefresh();
+                }else if (getScrollY() >= footViewHeight) {
+                    // 上拉加载更多，达到有效长度
+                    startLoadMore();
+                }else {
+                    //重置状态
+                    resetHeaderNormal();
+                    resetFooterNormal();
+                }
+                break;
+
+        }
+        mLastMoveY = y;
 
         return super.onTouchEvent(event);
 
     }
 
-    /**
-     * 自身处理touch事件
-     *
-     * @param event
-     */
-    private void dealWithTouchEvent(MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_MOVE:
-
-                if (getScrollY() <= -headViewHeight && mDistanceY <= 0) {
-                    scrollBy(0, mDistanceY / 8);//提高阻尼
-                } else if (getScrollY() >= footViewHeight && mDistanceY >= 0) {
-                    scrollBy(0, mDistanceY / 8);
-                } else {
-                    scrollBy(0, mDistanceY / 3);
-
-                }
-                updateHeader();
-                updateFooter();
-                break;
-
-        }
-    }
-
-    /**
-     * 松开手指时需要判断是否可以刷新或者加载或者重置
-     */
-    private void doWhenActionUp() {
-        if (getScrollY() <= -headViewHeight) {
-            // 下拉刷新，并且到达有效长度
-            startRefresh();
-        } else if (getScrollY() >= footViewHeight) {
-            // 上拉加载更多，达到有效长度
-            startLoadMore();
-        } else {
-            //重置状态
-            resetHeaderNormal();
-            resetFooterNormal();
-        }
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-
-        /**
-         * 在这里遇到一个问题：在处理ACTION_MOVE事件时，有时候子控件接手了，
-         * 后面该分发事件直接就把事件传递给了子控件，并不会征询onInterceptTouchEvent的意思
-         * 表现出来的现象就是刚好滑到头（底）的那一刻，header（footer）无法拉出来，因为根本
-         * 就没有拦截到ACTION_MOVE事件，除非ACTION_UP开始了新的周期。
-         * 不知道怎么解决？所以在这个地方加一个让自身也处理touch事件
-         */
-
-
-        /**
-         * 刷新或加载状态下，不用额外处理
-         */
-        if (mStatus == Status.REFRESHING || mStatus == Status.LOADING) {
-            return super.dispatchTouchEvent(ev);
-        }
-
-        int y = (int) ev.getY();
-        boolean isNeedIntercept;//是否需要拦截传递给内容view的touch事件
-
-        switch (ev.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                mLastMoveY = y;
-                break;
-            case MotionEvent.ACTION_MOVE:
-                mCurrentY = y;
-                mDistanceY = mLastMoveY - mCurrentY;
-                if (mDistanceY < 0) {
-                    //下滑 判断是否需要拦截（判断第一个child是否滑倒最上面）
-                    View child = getChildAt(0);
-                    isNeedIntercept = getRefreshIntercept(child);
-                    if (isNeedIntercept) {
-                        dealWithTouchEvent(ev);
-                    }
-                } else if (mDistanceY > 0) {
-                    //上滑 判断是否需要拦截（判断最后一个child是否滑动最底部）
-                    View child = getChildAt(0);
-                    isNeedIntercept = getLoadMoreIntercept(child);
-                    if (isNeedIntercept) {
-                        dealWithTouchEvent(ev);
-                    }
-                }
-                break;
-            case MotionEvent.ACTION_CANCEL:
-            case MotionEvent.ACTION_UP:
-                doWhenActionUp();
-                break;
-        }
-        mLastMoveY = y;
-
-
-        return super.dispatchTouchEvent(ev);
-    }
-
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        /**
-         * 刷新或者加载中不要拦截事件，交由子控件自由发挥
-         */
-        if (mStatus == Status.REFRESHING || mStatus == Status.LOADING) {
+        if (mStatus == Status.REFRESHING || mStatus == Status.LOADING){
             return false;
         }
         boolean isNeedIntercept = false;//是否需要拦截传递给内容view的touch事件
+        switch (ev.getAction()){
 
-        switch (ev.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                mLastMoveY = (int) ev.getY();
+                break;
             case MotionEvent.ACTION_MOVE:
-                if (mDistanceY < 0) {
+                int currentY = (int) ev.getY();
+                if (currentY> mLastMoveY){
                     //下滑 判断是否需要拦截（判断第一个child是否滑倒最上面）
                     View child = getChildAt(0);
                     isNeedIntercept = getRefreshIntercept(child);
-                } else if (mDistanceY > 0) {
+
+                }else if (currentY< mLastMoveY){
                     //上滑 判断是否需要拦截（判断最后一个child是否滑动最底部）
                     View child = getChildAt(0);
                     isNeedIntercept = getLoadMoreIntercept(child);
+
                 }
                 break;
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                isNeedIntercept = false;
-                break;
         }
+        mLastMoveY = (int) ev.getY();
         return isNeedIntercept;
-
     }
 
 
