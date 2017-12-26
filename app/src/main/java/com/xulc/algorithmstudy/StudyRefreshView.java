@@ -237,6 +237,8 @@ public class StudyRefreshView extends ViewGroup {
 
     }
 
+    private float mDownX;
+    private float mDownY;
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         if (mStatus == Status.REFRESHING || mStatus == Status.LOADING){
@@ -247,20 +249,31 @@ public class StudyRefreshView extends ViewGroup {
 
             case MotionEvent.ACTION_DOWN:
                 mLastMoveY = (int) ev.getY();
+                mDownX = ev.getX();
+                mDownY = ev.getRawY();
                 break;
             case MotionEvent.ACTION_MOVE:
-                int currentY = (int) ev.getY();
-                if (currentY> mLastMoveY){
-                    //下滑 判断是否需要拦截（判断第一个child是否滑倒最上面）
-                    View child = getChildAt(0);
-                    isNeedIntercept = getRefreshIntercept(child);
+                //解决轮播滑动冲突
+                float moveX = ev.getX();
+                float moveY = ev.getRawY();
+                boolean isHorizon = Math.abs(moveY - mDownY) / Math.abs(moveX - mDownX) < Math.tan(45.0);
+                if (isHorizon) {
+                    //这种情况下不要拦截
+                    isNeedIntercept = false;
+                }else {
+                    int currentY = (int) ev.getY();
+                    if (currentY> mLastMoveY){
+                        //下滑 判断是否需要拦截（判断第一个child是否滑倒最上面）
+                        View child = getChildAt(0);
+                        isNeedIntercept = getRefreshIntercept(child);
 
-                }else if (currentY< mLastMoveY){
-                    //上滑 判断是否需要拦截（判断最后一个child是否滑动最底部）
-                    View child = getChildAt(0);
-                    isNeedIntercept = getLoadMoreIntercept(child);
-
+                    }else if (currentY< mLastMoveY){
+                        //上滑 判断是否需要拦截（判断最后一个child是否滑动最底部）
+                        View child = getChildAt(0);
+                        isNeedIntercept = getLoadMoreIntercept(child);
+                    }
                 }
+
                 break;
         }
         mLastMoveY = (int) ev.getY();
