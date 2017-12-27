@@ -58,7 +58,7 @@ public class StudyRefreshView extends ViewGroup {
     /**
      * StudyRefreshView的状态
      */
-    private enum Status {
+    public enum Status {
         NORMAL,//正常状态
         REFRESHING,//刷新中
         LOADING,//加载中
@@ -386,7 +386,7 @@ public class StudyRefreshView extends ViewGroup {
     public void updateHeader() {
         int scrollY = Math.abs(getScrollY());
         if (headerCallBack != null) {
-            headerCallBack.onHeaderMove(headViewHeight, scrollY);
+            headerCallBack.onHeaderMove(headViewHeight, scrollY,mStatus);
         } else {
             if (scrollY >= headViewHeight) {
                 mHeaderText.setText("松开刷新");
@@ -433,7 +433,7 @@ public class StudyRefreshView extends ViewGroup {
         updateStatus(Status.NORMAL);
 
         if (headerCallBack != null) {
-            headerCallBack.onStateNormal();
+            headerCallBack.onStateNormal(mStatus);
         } else {
             mHeaderText.setText("下拉刷新");
             mHeaderArrow.setVisibility(VISIBLE);
@@ -469,7 +469,7 @@ public class StudyRefreshView extends ViewGroup {
 
         startSlowScroll(getScrollY(), -(getScrollY() + headViewHeight));
         if (headerCallBack != null) {
-            headerCallBack.onStateRefresh(headViewHeight);
+            headerCallBack.onStateRefresh(headViewHeight,mStatus);
         } else {
             mHeaderProgressBar.setVisibility(VISIBLE);
             mHeaderArrow.setVisibility(GONE);
@@ -513,7 +513,7 @@ public class StudyRefreshView extends ViewGroup {
         updateStatus(Status.NORMAL);
         startSlowScroll(getScrollY(), -getScrollY());
         if (headerCallBack != null) {
-            headerCallBack.onStateFinish();
+            headerCallBack.onStateFinish(mStatus);
         } else {
             resetHeaderNormal();
         }
@@ -560,7 +560,7 @@ public class StudyRefreshView extends ViewGroup {
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             postInvalidate();
             if (headerCallBack != null)
-                headerCallBack.onHeaderMove(headViewHeight, Math.abs(getScrollY()));
+                headerCallBack.onHeaderMove(headViewHeight, Math.abs(getScrollY()),mStatus);
         }
     }
 
@@ -575,13 +575,13 @@ public class StudyRefreshView extends ViewGroup {
 
 
     public interface IHeaderCallBack {
-        void onStateRefresh(int headerHeight);//正在刷新
+        void onStateRefresh(int headerHeight,Status status);//正在刷新
 
-        void onStateNormal();//初始状态
+        void onStateNormal(Status status);//初始状态
 
-        void onStateFinish();//刷新完成
+        void onStateFinish(Status status);//刷新完成
 
-        void onHeaderMove(int headerHeight, int offsetY);//下拉header
+        void onHeaderMove(int headerHeight, int offsetY,Status status);//下拉header
     }
 
     public interface IFooterCallBack {

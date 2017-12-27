@@ -46,24 +46,24 @@ public class BezierHeaderView extends LinearLayout implements StudyRefreshView.I
 
 
     @Override
-    public void onStateRefresh(int headerHeight) {
+    public void onStateRefresh(int headerHeight,StudyRefreshView.Status status) {
         isRefreshFinishMove = true;
         ivInlife.startAnimation(scaleAnimation);
     }
 
     @Override
-    public void onStateNormal() {
+    public void onStateNormal(StudyRefreshView.Status status) {
 
     }
 
     @Override
-    public void onStateFinish() {
+    public void onStateFinish(StudyRefreshView.Status status) {
 
     }
 
 
     @Override
-    public void onHeaderMove(int headerHeight, int offsetY) {
+    public void onHeaderMove(int headerHeight, int offsetY,StudyRefreshView.Status status) {
         //刷新完成后的头部位移不需要通知贝塞尔，贝塞尔的绘制注意偏移量要控制在headerHeight以内
         if (!isRefreshFinishMove){
             bezierView.setOffsetY(Math.min(headerHeight,offsetY));
@@ -108,6 +108,7 @@ public class BezierHeaderView extends LinearLayout implements StudyRefreshView.I
      * @param studyRefreshView
      */
     public void stopRefresh(StudyRefreshView studyRefreshView){
+        //这个地方需要判断当前组件的状态 否则会误触发刷新完成
         ivInlife.clearAnimation();
         bezierView.stopRefresh(studyRefreshView);
         //刷新完成后 图标也要往上位移

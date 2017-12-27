@@ -42,7 +42,7 @@ public class StudyHeaderView extends LinearLayout implements StudyRefreshView.IH
 
 
     @Override
-    public void onStateRefresh(int headerHeight) {
+    public void onStateRefresh(int headerHeight,StudyRefreshView.Status status) {
         isRefreshing = true;
         tvLoadTip.setText("加载中....");
         DensityUtil.getInstance().setViewMargin(tvLoadTip,30,0,0,0);
@@ -50,21 +50,21 @@ public class StudyHeaderView extends LinearLayout implements StudyRefreshView.IH
     }
 
     @Override
-    public void onStateNormal() {
+    public void onStateNormal(StudyRefreshView.Status status) {
         isRefreshing = false;
         tvLoadTip.setText("下拉即可刷新...");
 
     }
 
     @Override
-    public void onStateFinish() {
+    public void onStateFinish(StudyRefreshView.Status status) {
         isRefreshing = false;
         loadCircle.stopRotate();
         tvLoadTip.setText("下拉即可刷新...");
     }
 
     @Override
-    public void onHeaderMove(int headerHeight, int offsetY) {
+    public void onHeaderMove(int headerHeight, int offsetY,StudyRefreshView.Status status) {
         //以头布局高度的4/3作为圆圈转满一圈的阈值
         if (!isRefreshing){
             loadCircle.setCurrentAngle((int) (headerHeight/0.75),offsetY);
