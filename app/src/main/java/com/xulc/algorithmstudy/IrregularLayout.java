@@ -36,8 +36,11 @@ public class IrregularLayout extends ViewGroup{
         int height = MeasureSpec.getSize(heightMeasureSpec);
         int requireHeight = 0;//根据child计算出来的高度
 
+        //在ViewGroup存在多重嵌套行为时，测量模式AT_MOST是不会生效的，默认会载入UNSPECIFIED
+        //所以这个地方两种模式下都需要自身计算高度
         switch (MeasureSpec.getMode(heightMeasureSpec)){
             case MeasureSpec.AT_MOST:
+            case MeasureSpec.UNSPECIFIED:
                 for (int i=0;i<getChildCount();i++){
                     View child = getChildAt(i);
                     if (childRowWidth+child.getMeasuredWidth()>width){
@@ -47,13 +50,15 @@ public class IrregularLayout extends ViewGroup{
                     childRowWidth += child.getMeasuredWidth()+itemHorSpace;
                 }
                 break;
+            case MeasureSpec.EXACTLY:
+                requireHeight = height;
+                break;
         }
+
         if (getChildCount()>0){
             requireHeight = requireHeight + getChildAt(0).getMeasuredHeight();//这里加一个第一行的高度
-            setMeasuredDimension(width,(MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY) ? height : requireHeight);
-        }else {
-            setMeasuredDimension(width,0);
         }
+        setMeasuredDimension(width,requireHeight);
 
 
     }
