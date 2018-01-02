@@ -16,5 +16,7 @@
             android:clipToPadding="false"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
-
+    <com.xulc.algorithmstudy.BezierCircleIndicator
+        android:layout_width="match_parent"
+        android:layout_height="20dp" />
 </LinearLayout>

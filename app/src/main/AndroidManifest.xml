@@ -25,6 +25,7 @@
         <activity android:name=".ViewPagerActivity" android:screenOrientation="portrait"/>
         <activity android:name=".TestIrregularActivity" android:screenOrientation="portrait"/>
         <activity android:name=".BezierHeaderActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".StudyTabIndicatorActivity" android:screenOrientation="portrait"/>
 
     </application>
 

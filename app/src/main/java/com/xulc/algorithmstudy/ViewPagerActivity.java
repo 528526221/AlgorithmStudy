@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -45,8 +46,25 @@ public class ViewPagerActivity extends AppCompatActivity{
                 return viewPager.dispatchTouchEvent(event);
             }
         });
+        viewPager.setOnPageChangeListener(new LoopViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                Log.d("xlc","position="+position+";positionOffset="+positionOffset);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         viewPager.setAutoScrollInterval(4000);
         viewPager.startAutoScroll();
+
     }
 
 

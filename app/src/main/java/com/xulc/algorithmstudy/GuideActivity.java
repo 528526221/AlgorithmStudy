@@ -52,4 +52,9 @@ public class GuideActivity extends AppCompatActivity {
     public void openBezierHeaderView(View view) {
         startActivity(new Intent(this,BezierHeaderActivity.class));
     }
+
+    public void openTabIndicator(View view) {
+        startActivity(new Intent(this,StudyTabIndicatorActivity.class));
+
+    }
 }

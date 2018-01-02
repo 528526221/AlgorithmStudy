@@ -38,17 +38,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="openViewPager"
-                android:text="openViewPager"/>
+                android:text="open View Pager"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="openIrregular"
-                android:text="openIrregular"/>
+                android:text="open Irregular"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="openBezierHeaderView"
                 android:text="openBezierHeaderView"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="openTabIndicator"
+                android:text="openTabIndicator"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
