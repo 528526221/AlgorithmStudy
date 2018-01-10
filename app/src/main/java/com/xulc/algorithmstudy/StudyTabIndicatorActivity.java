@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,7 +15,7 @@ import java.util.List;
 
 /**
  * Date：2018/1/2
- * Desc：
+ * Desc：测试tab指示器
  * Created by xuliangchun.
  */
 
@@ -22,7 +23,9 @@ public class StudyTabIndicatorActivity extends AppCompatActivity{
     private List<Fragment> fragments = new ArrayList<>();
     private ViewPager viewPager;
     private PageTabIndicator tabIndicator;
-    private String[] titles = {"爱国","爱党","爱人民"};
+//    private String[] titles = {"爱国","爱党","爱我中华","爱情"};
+    private String[] titles = {"爱国","爱党","爱我中华","爱情","社会主义","中国","浙江","杭州","西溪花园","迎创"};
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,25 +46,20 @@ public class StudyTabIndicatorActivity extends AppCompatActivity{
 
 
         tabIndicator.setTitles(Arrays.asList(titles));
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                tabIndicator.startScroll(position,positionOffset);
-            }
+        tabIndicator.setViewPager(viewPager);
 
-            @Override
-            public void onPageSelected(int position) {
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
 //        DumpHeapHelper.getInstance(this);//模拟内存泄漏
     }
 
+    public void setIndicatorFillWidthWithTab(View view) {
+        tabIndicator.setIndicatorFillWidthWithTab(!tabIndicator.isIndicatorFillWidthWithTab());
+        tabIndicator.setTitles(Arrays.asList(titles));
+    }
+
+    public void setIndicatorAverageScreen(View view) {
+        tabIndicator.setIndicatorAverageScreen(!tabIndicator.isIndicatorAverageScreen());
+        tabIndicator.setTitles(Arrays.asList(titles));
+    }
 
 
     private class FragmentAdapter extends FragmentPagerAdapter{

@@ -4,4 +4,15 @@
         <attr name="ItemHorSpace" format="dimension"/>
         <attr name="ItemVerSpace" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="PageTabIndicator">
+        <attr name="IndicatorTextColor" format="color"/>
+        <attr name="IndicatorTextSize" format="dimension"/>
+        <attr name="IndicatorLineColor" format="color"/>
+        <attr name="IndicatorLineHeight" format="dimension"/>
+        <attr name="IndicatorAverageScreen" format="boolean"/>
+        <attr name="IndicatorFillWidthWithTab" format="boolean"/>
+        <attr name="IndicatorLeftRightPadding" format="dimension"/>
+        <attr name="IndicatorTwoTabDistance" format="dimension"/>
+        <attr name="IndicatorDrawTabBackground" format="boolean"/>
+    </declare-styleable>
 </resources>
