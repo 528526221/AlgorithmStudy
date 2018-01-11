@@ -3,20 +3,19 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#868383">
+    android:layout_height="match_parent">
     <com.xulc.algorithmstudy.PageTabIndicator
         android:id="@+id/tabIndicator"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#fafdfa"
         app:IndicatorTwoTabDistance="5dp"
-        app:IndicatorLeftRightPadding="10dp"
-        app:IndicatorDrawTabBackground="true"
+        app:IndicatorLeftRightPadding="8dp"
+        app:IndicatorTextSelectColor="#0ce409"
         app:IndicatorAverageScreen="false"
-        app:IndicatorTextColor="#0ce409"
         app:IndicatorLineColor="#0ce409"
-        app:IndicatorTextSize="14sp"/>
+        app:IndicatorTextSize="14sp"
+        app:IndicatorBottomLineShow="true"/>
+
 
 
     <android.support.v4.view.ViewPager

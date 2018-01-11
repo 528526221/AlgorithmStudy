@@ -7,7 +7,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,17 +49,6 @@ public class StudyTabIndicatorActivity extends AppCompatActivity{
 
 //        DumpHeapHelper.getInstance(this);//模拟内存泄漏
     }
-
-    public void setIndicatorFillWidthWithTab(View view) {
-        tabIndicator.setIndicatorFillWidthWithTab(!tabIndicator.isIndicatorFillWidthWithTab());
-        tabIndicator.setTitles(Arrays.asList(titles));
-    }
-
-    public void setIndicatorAverageScreen(View view) {
-        tabIndicator.setIndicatorAverageScreen(!tabIndicator.isIndicatorAverageScreen());
-        tabIndicator.setTitles(Arrays.asList(titles));
-    }
-
 
     private class FragmentAdapter extends FragmentPagerAdapter{
 

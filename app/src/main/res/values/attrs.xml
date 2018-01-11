@@ -6,9 +6,13 @@
     </declare-styleable>
     <declare-styleable name="PageTabIndicator">
         <attr name="IndicatorTextColor" format="color"/>
+        <attr name="IndicatorTextSelectColor" format="color"/>
         <attr name="IndicatorTextSize" format="dimension"/>
         <attr name="IndicatorLineColor" format="color"/>
         <attr name="IndicatorLineHeight" format="dimension"/>
+        <attr name="IndicatorBottomLineColor" format="color"/>
+        <attr name="IndicatorBottomLineHeight" format="dimension"/>
+        <attr name="IndicatorBottomLineShow" format="boolean"/>
         <attr name="IndicatorAverageScreen" format="boolean"/>
         <attr name="IndicatorFillWidthWithTab" format="boolean"/>
         <attr name="IndicatorLeftRightPadding" format="dimension"/>
