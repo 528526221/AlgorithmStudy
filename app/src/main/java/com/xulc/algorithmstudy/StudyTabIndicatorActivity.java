@@ -24,7 +24,7 @@ public class StudyTabIndicatorActivity extends AppCompatActivity{
     private ViewPager viewPager;
     private PageTabIndicator tabIndicator;
 //    private String[] titles = {"爱国","爱党","爱我中华","爱情"};
-    private String[] titles = {"爱国","爱党","爱我中华","爱情","社会主义","中国","浙江","杭州","西溪花园","迎创"};
+    private String[] titles = {"爱国是","爱党","爱我中华","爱情爱我","社会","中国爱我中华","浙江","杭州","西溪花园","迎创"};
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

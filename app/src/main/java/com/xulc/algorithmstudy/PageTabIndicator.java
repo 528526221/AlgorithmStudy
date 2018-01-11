@@ -13,7 +13,6 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.animation.LinearInterpolator;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Scroller;
 import android.widget.TextView;
@@ -27,7 +26,7 @@ import java.util.List;
  * Created by xuliangchun.
  */
 
-public class PageTabIndicator extends RelativeLayout{
+public class PageTabIndicator extends RelativeLayout {
     private Context mContext;
     private Paint mPaint;
     //下面是自定义属性
@@ -35,28 +34,31 @@ public class PageTabIndicator extends RelativeLayout{
     private float indicatorTextSize;//指示器标题文字大小
     private int indicatorLineColor = Color.RED;//指示器横线的颜色
     private float indicatorLineHeight;//指示器横线的高度
-    private boolean indicatorAverageScreen;//true则表示tab平分屏幕宽度，否则意味着容器的宽度是自适应的
+    private boolean indicatorAverageScreen;//true则表示tab平分屏幕宽度，否则意味着容器的宽度是自适应的 默认平分
     private boolean indicatorFillWidthWithTab;//指示器横线是否宽度填充满tab
     private float indicatorLineLeftRightPadding;//在indicatorFillWidthWithTab为false的情况下，指示器横线的宽度要依据title的实际宽度来确定
     private float indicatorTwoTabDistance;//两个tab之间的距离，默认无间距
+    private boolean isNeedDrawTabBackGround;//是否绘制tab背景 只是为了开发效果方便而定义
+
     private int mOffsetX;//偏移量
     private int tabCount;//tab数量
     private List<String> titles = new ArrayList<>();
     private int currentPosition;
+    private float positionOffset;
     private Float[] tabWidthArray;//tab宽度数组
     private Float[] tabTitleWidthArray;//tab中title文本的宽度数组
-    private String color[] = {"#3343a954","#33b68c32"};
     private Scroller mScroller;
 
     private int mLastMoveX;//滑动时X的上次值
     private int mDownX;//按下时的x
     private ViewPager mViewPager;//关联的ViewPager
     private int indicatorLayoutWidth;//在布局中提供给指示器的宽度值，用于touch时判断是否需要滑动
-    private boolean isNeedDrawTabBackGround = true;
+    //下面参数仅为开发调试用 不对外公开
+    private String color[] = {"#3343a954", "#33b68c32"};
 
 
     public PageTabIndicator(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public PageTabIndicator(Context context, @Nullable AttributeSet attrs) {
@@ -64,15 +66,16 @@ public class PageTabIndicator extends RelativeLayout{
         this.mContext = context;
         mScroller = new Scroller(context, new LinearInterpolator());
 
-        TypedArray a = context.obtainStyledAttributes(attrs,R.styleable.PageTabIndicator);
-        indicatorTextColor = a.getColor(R.styleable.PageTabIndicator_IndicatorTextColor,Color.RED);
-        indicatorTextSize = a.getDimension(R.styleable.PageTabIndicator_IndicatorTextSize,28F);
-        indicatorLineColor = a.getColor(R.styleable.PageTabIndicator_IndicatorLineColor,Color.RED);
-        indicatorLineHeight = a.getDimension(R.styleable.PageTabIndicator_IndicatorLineHeight,8F);
-        indicatorAverageScreen = a.getBoolean(R.styleable.PageTabIndicator_IndicatorAverageScreen,true);
-        indicatorFillWidthWithTab = a.getBoolean(R.styleable.PageTabIndicator_IndicatorFillWidthWithTab,true);
-        indicatorLineLeftRightPadding = a.getDimension(R.styleable.PageTabIndicator_IndicatorLeftRightPadding,0);
-        indicatorTwoTabDistance = a.getDimension(R.styleable.PageTabIndicator_IndicatorTwoTabDistance,0);
+        TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.PageTabIndicator);
+        indicatorTextColor = a.getColor(R.styleable.PageTabIndicator_IndicatorTextColor, Color.RED);
+        indicatorTextSize = a.getDimension(R.styleable.PageTabIndicator_IndicatorTextSize, 28F);
+        indicatorLineColor = a.getColor(R.styleable.PageTabIndicator_IndicatorLineColor, Color.RED);
+        indicatorLineHeight = a.getDimension(R.styleable.PageTabIndicator_IndicatorLineHeight, 8F);
+        indicatorAverageScreen = a.getBoolean(R.styleable.PageTabIndicator_IndicatorAverageScreen, true);
+        indicatorFillWidthWithTab = a.getBoolean(R.styleable.PageTabIndicator_IndicatorFillWidthWithTab, true);
+        indicatorLineLeftRightPadding = a.getDimension(R.styleable.PageTabIndicator_IndicatorLeftRightPadding, 0);
+        indicatorTwoTabDistance = a.getDimension(R.styleable.PageTabIndicator_IndicatorTwoTabDistance, 0);
+        isNeedDrawTabBackGround = a.getBoolean(R.styleable.PageTabIndicator_IndicatorDrawTabBackground,false);
         a.recycle();
 
         mPaint = new Paint();
@@ -81,7 +84,7 @@ public class PageTabIndicator extends RelativeLayout{
         mPaint.setTextSize(indicatorTextSize);
         mPaint.setStyle(Paint.Style.FILL_AND_STROKE);
         //注意隐含条件  若tab不是等分的话，anemia指示器不可能填充满tab
-        if (!indicatorAverageScreen){
+        if (!indicatorAverageScreen) {
             indicatorFillWidthWithTab = false;
         }
     }
@@ -90,36 +93,45 @@ public class PageTabIndicator extends RelativeLayout{
     @Override
     protected void dispatchDraw(Canvas canvas) {
         super.dispatchDraw(canvas);
-        if (!isInEditMode()&&isNeedDrawTabBackGround){
+        if (!isInEditMode() && isNeedDrawTabBackGround) {
             //先画出每个tab的背景色
             mPaint.setStrokeWidth(0);
 
             int start = 0;
-            for (int i=0;i<tabWidthArray.length;i++){
-                if (i%2==0){
+            for (int i = 0; i < tabWidthArray.length; i++) {
+                if (i % 2 == 0) {
                     mPaint.setColor(Color.parseColor(color[0]));
-                }else {
+                } else {
                     mPaint.setColor(Color.parseColor(color[1]));
                 }
 
-                canvas.drawRect(new Rect(start,0, (int) (start+tabWidthArray[i]),getHeight()),mPaint);
-                start += tabWidthArray[i]+indicatorTwoTabDistance;
+                canvas.drawRect(new Rect(start, 0, (int) (start + tabWidthArray[i]), getHeight()), mPaint);
+                start += tabWidthArray[i] + indicatorTwoTabDistance;
             }
             mPaint.setColor(indicatorLineColor);
             mPaint.setStrokeWidth(indicatorLineHeight);
         }
 
         //画布平移
-        canvas.translate(mOffsetX,0);
-        if (isInEditMode()){
+        canvas.translate(mOffsetX, 0);
+        if (isInEditMode()) {
             //伪绘制
-            canvas.drawLine(0,getHeight()-indicatorLineHeight/2,getWidth()/2,getHeight()-indicatorLineHeight/2,mPaint);
-        }else {
-            if (indicatorFillWidthWithTab){
-                canvas.drawLine(0,getHeight()-indicatorLineHeight/2,tabWidthArray[currentPosition],getHeight()-indicatorLineHeight/2,mPaint);
-            }else {
+            canvas.drawLine(0, getHeight() - indicatorLineHeight / 2, getWidth() / 2, getHeight() - indicatorLineHeight / 2, mPaint);
+        } else {
+            if (indicatorFillWidthWithTab) {
+                canvas.drawLine(0, getHeight() - indicatorLineHeight / 2, tabWidthArray[currentPosition], getHeight() - indicatorLineHeight / 2, mPaint);
+            } else {
                 //自适应的话 stopX应该为文本宽度+左右padding
-                canvas.drawLine(0,getHeight()-indicatorLineHeight/2,tabTitleWidthArray[currentPosition]+2*indicatorLineLeftRightPadding,getHeight()-indicatorLineHeight/2,mPaint);
+//                canvas.drawLine(0,getHeight()-indicatorLineHeight/2,tabTitleWidthArray[currentPosition]+2*indicatorLineLeftRightPadding,getHeight()-indicatorLineHeight/2,mPaint);
+                //如果两个title的文字宽度不一样的时候，那么这个地方会出现宽度瞬变，需要想办法处理掉
+                //处理方法就是把下一个title的宽度与当前title宽度之差*positionOffset
+                if (currentPosition < titles.size() - 1) {
+                    canvas.drawLine(0, getHeight() - indicatorLineHeight / 2, tabTitleWidthArray[currentPosition] + 2 * indicatorLineLeftRightPadding + (tabTitleWidthArray[currentPosition + 1] - tabTitleWidthArray[currentPosition]) * positionOffset, getHeight() - indicatorLineHeight / 2, mPaint);
+                } else {
+                    canvas.drawLine(0, getHeight() - indicatorLineHeight / 2, tabTitleWidthArray[currentPosition] + 2 * indicatorLineLeftRightPadding, getHeight() - indicatorLineHeight / 2, mPaint);
+                }
+
+
             }
         }
 
@@ -128,6 +140,7 @@ public class PageTabIndicator extends RelativeLayout{
 
     /**
      * 设置指示器title
+     *
      * @param titles
      */
     public void setTitles(final List<String> titles) {
@@ -144,29 +157,31 @@ public class PageTabIndicator extends RelativeLayout{
 
                 //把title作为子view添加到布局中
 
-                for (int i=0;i<titles.size();i++){
-                    final TextView textView = new TextView(mContext);
+                for (int i = 0; i < titles.size(); i++) {
+                    TextView textView = new TextView(mContext);
                     textView.setText(titles.get(i));
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_PX, indicatorTextSize);
                     textView.setTextColor(indicatorTextColor);
-                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+                    textView.setBackgroundColor(Color.RED);
+
+                    RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                     layoutParams.addRule(RelativeLayout.CENTER_VERTICAL);
                     //添加文本时要控制添加的位置
-                    if (indicatorAverageScreen){
-                        layoutParams.leftMargin = (int) (i*(tabWidthArray[i]+indicatorTwoTabDistance));
-                    }else {
+                    if (indicatorAverageScreen) {
+                        layoutParams.leftMargin = (int) (i * (tabWidthArray[i] + indicatorTwoTabDistance));
+                    } else {
                         layoutParams.leftMargin = 0;
-                        for (int j=0;j<i;j++){
+                        for (int j = 0; j < i; j++) {
                             layoutParams.leftMargin += tabWidthArray[j];
-                            if (j!=tabWidthArray.length-1){
+                            if (j != tabWidthArray.length - 1) {
                                 layoutParams.leftMargin += indicatorTwoTabDistance;
                             }
                         }
                     }
                     //为了文本能够横向在每个tab中居中，需要增加tab宽度减去文本宽度的一半的偏移量
-                    layoutParams.leftMargin += (tabWidthArray[i]-tabTitleWidthArray[i])/2;
-                    addView(textView,layoutParams);
+                    layoutParams.leftMargin += (tabWidthArray[i] - tabTitleWidthArray[i]) / 2;
 
+                    addView(textView, layoutParams);
                 }
             }
         });
@@ -176,42 +191,47 @@ public class PageTabIndicator extends RelativeLayout{
      * 计算并存储tab的宽度和title的宽度
      */
     private void calculationTabAndTitleWidth() {
-        Log.d("xlc","calculationTabAndTitleWidth");
-        //把指示器的每个tab的width和每个title的width存储到数组中，便于使用
-        for (int i=0;i<titles.size();i++){
-            tabTitleWidthArray[i] = mPaint.measureText(titles.get(i));
-            if (indicatorAverageScreen){
-                tabWidthArray[i] = (getWidth()-(tabCount-1)* indicatorTwoTabDistance)/tabCount;
-            }else {
-                tabWidthArray[i] = tabTitleWidthArray[i]+2*indicatorLineLeftRightPadding;
+        if (tabWidthArray[0] == null){
+            Log.d("xlc", "calculationTabAndTitleWidth");
+            //把指示器的每个tab的width和每个title的width存储到数组中，便于使用
+            for (int i = 0; i < titles.size(); i++) {
+                tabTitleWidthArray[i] = mPaint.measureText(titles.get(i));
+                if (indicatorAverageScreen) {
+                    tabWidthArray[i] = (getWidth() - (tabCount - 1) * indicatorTwoTabDistance) / tabCount;
+                } else {
+                    tabWidthArray[i] = tabTitleWidthArray[i] + 2 * indicatorLineLeftRightPadding;
+                }
             }
         }
     }
 
     /**
      * 开始滑动切换ViewPager
+     *
      * @param position
      * @param positionOffset
      */
     public void startIndicatorOffset(final int position, final float positionOffset) {
-        if (tabCount<=position) throw new RuntimeException("Tab titles count can not be less than viewPager counts!");
+        if (tabCount <= position)
+            throw new RuntimeException("Tab titles count can not be less than viewPager counts!");
         this.currentPosition = position;
+        this.positionOffset = positionOffset;
         this.post(new Runnable() {
             @Override
             public void run() {
                 //分固定平分还是自适应宽度 计算偏移量的方式不同
-                if (indicatorAverageScreen){
-                    mOffsetX = (int) ((position+positionOffset)*(tabWidthArray[currentPosition]+indicatorTwoTabDistance));
+                if (indicatorAverageScreen) {
+                    mOffsetX = (int) ((position + positionOffset) * (tabWidthArray[currentPosition] + indicatorTwoTabDistance));
                     //如果是在指示器宽度不填充满的情况下，我们还需要增加偏移才能使得指示器居中
-                    if (!indicatorFillWidthWithTab){
-                        mOffsetX = (int) (mOffsetX + (tabWidthArray[currentPosition]-(tabTitleWidthArray[currentPosition]+2*indicatorLineLeftRightPadding))/2);
+                    if (!indicatorFillWidthWithTab) {
+                        mOffsetX = (int) (mOffsetX + (tabWidthArray[currentPosition] - (tabTitleWidthArray[currentPosition] + 2 * indicatorLineLeftRightPadding)) / 2);
                     }
-                }else {
+                } else {
                     mOffsetX = 0;
-                    for (int i=0;i<position;i++){
-                        mOffsetX += tabTitleWidthArray[i]+2*indicatorLineLeftRightPadding+indicatorTwoTabDistance;
+                    for (int i = 0; i < position; i++) {
+                        mOffsetX += tabTitleWidthArray[i] + 2 * indicatorLineLeftRightPadding + indicatorTwoTabDistance;
                     }
-                    mOffsetX += positionOffset*(tabTitleWidthArray[position]+2*indicatorLineLeftRightPadding+indicatorTwoTabDistance);
+                    mOffsetX += positionOffset * (tabTitleWidthArray[position] + 2 * indicatorLineLeftRightPadding + indicatorTwoTabDistance);
                 }
                 invalidate();
             }
@@ -222,45 +242,44 @@ public class PageTabIndicator extends RelativeLayout{
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
         int width = MeasureSpec.getSize(widthMeasureSpec);
         indicatorLayoutWidth = width;
-        int height = MeasureSpec.getSize(heightMeasureSpec);
-        if (!indicatorAverageScreen && tabWidthArray!=null){
+        if (!indicatorAverageScreen && tabWidthArray != null) {
             //非均分屏幕宽度的情况下，宽度需要自己计算
             width = 0;
-            for (int i=0;i<tabWidthArray.length;i++){
-                if (tabWidthArray[0]==null){
-                    //此时tab宽度值还没有保存，先计算保存
-                    calculationTabAndTitleWidth();
-                }
+            for (int i = 0; i < tabWidthArray.length; i++) {
+                //此时tab宽度值还没有保存，先计算保存
+                calculationTabAndTitleWidth();
                 width += tabWidthArray[i];
-                if (i!=tabWidthArray.length-1){
+                if (i != tabWidthArray.length - 1) {
                     width += indicatorTwoTabDistance;
                 }
             }
         }
-        setMeasuredDimension(width,height);
+        //创建新的测量规范 这个地方不能直接设置宽高而要给规范是因为title作为子view添加时需要依据这个新的规范
+        widthMeasureSpec = MeasureSpec.makeMeasureSpec(width,MeasureSpec.getMode(widthMeasureSpec));
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+
 
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         int x = (int) event.getX();
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mLastMoveX = mDownX = x;
                 break;
             case MotionEvent.ACTION_MOVE:
                 //如果还没有屏幕宽
-                if (getWidth()>indicatorLayoutWidth){
-                    startScroll(mLastMoveX-x,null);
+                if (getWidth() > indicatorLayoutWidth) {
+                    startScroll(mLastMoveX - x, null);
                 }
                 break;
             case MotionEvent.ACTION_UP:
-                if (Math.abs(mDownX-x)<10){
+                if (Math.abs(mDownX - x) < 10) {
                     //响应点击区域  相对view的坐标加上已经滚动的位移
-                    responseOnClick(mDownX+getScrollX());
+                    responseOnClick(mDownX + getScrollX());
                 }
                 break;
         }
@@ -270,34 +289,34 @@ public class PageTabIndicator extends RelativeLayout{
 
     /**
      * 滚动容器
+     *
      * @param dx
      * @param scroller 如果这个参数不为null 就使用scroller缓慢滚动
-     * getWidth()是内容实际宽度
-     * indicatorLayoutWidth是布局宽度
+     *                 getWidth()是内容实际宽度
+     *                 indicatorLayoutWidth是布局宽度
      */
-    private void startScroll(int dx,Scroller scroller) {
+    private void startScroll(int dx, Scroller scroller) {
         //这里注意，真正能滑动的最大距离不是控件的宽度，而是控件宽减去提供给它的宽度
-        if (getScrollX()+dx>getWidth()-indicatorLayoutWidth){
-            if (scroller!=null){
-                scroller.startScroll(getScrollX(),0,getWidth()-indicatorLayoutWidth-getScrollX(),0);
-            }else {
-                scrollTo(getWidth()-indicatorLayoutWidth,0);
+        if (getScrollX() + dx > getWidth() - indicatorLayoutWidth) {
+            if (scroller != null) {
+                scroller.startScroll(getScrollX(), 0, getWidth() - indicatorLayoutWidth - getScrollX(), 0);
+            } else {
+                scrollTo(getWidth() - indicatorLayoutWidth, 0);
             }
-        }else if (getScrollX()+dx<0){
-            if (scroller!=null){
-                scroller.startScroll(getScrollX(),0,-getScrollX(),0);
-            }else {
-                scrollTo(0,0);
+        } else if (getScrollX() + dx < 0) {
+            if (scroller != null) {
+                scroller.startScroll(getScrollX(), 0, -getScrollX(), 0);
+            } else {
+                scrollTo(0, 0);
             }
-        }else {
-            if (scroller!=null){
-                scroller.startScroll(getScrollX(),0,dx,0);
-            }else {
-                scrollBy(dx,0);
+        } else {
+            if (scroller != null) {
+                scroller.startScroll(getScrollX(), 0, dx, 0);
+            } else {
+                scrollBy(dx, 0);
             }
         }
     }
-
 
 
     @Override
@@ -310,36 +329,37 @@ public class PageTabIndicator extends RelativeLayout{
 
     /**
      * 设置关联的ViewPager
+     *
      * @param viewPager
      */
-    public void setViewPager(ViewPager viewPager){
+    public void setViewPager(ViewPager viewPager) {
         this.mViewPager = viewPager;
         this.mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                startIndicatorOffset(position,positionOffset);
-                Log.d("xlc","onPageScrolled");
+                startIndicatorOffset(position, positionOffset);
+                Log.d("xlc", "onPageScrolled");
             }
 
             @Override
             public void onPageSelected(int position) {
-                Log.d("xlc","onPageSelected");
+                Log.d("xlc", "onPageSelected");
                 //滚动当前选中的tab到屏幕中央区域
                 //计算当前tab的中心点位置x  多做一步操作，将点击的tab滚动到屏幕中央
                 //如果还没有屏幕宽 那当然就不需滚动了
-                if (getWidth()>indicatorLayoutWidth){
+                if (getWidth() > indicatorLayoutWidth) {
                     int dx = 0;
-                    for (int i=0;i<tabWidthArray.length;i++){
-                        if (i<position){
-                            dx += tabWidthArray[i]+indicatorTwoTabDistance;
-                        }else if (i == position){
-                            dx += tabWidthArray[i]/2;
+                    for (int i = 0; i < tabWidthArray.length; i++) {
+                        if (i < position) {
+                            dx += tabWidthArray[i] + indicatorTwoTabDistance;
+                        } else if (i == position) {
+                            dx += tabWidthArray[i] / 2;
                             break;
                         }
                     }
                     //虚拟计算点与理论上屏幕中央点的差值 利用scroller缓慢滑动
 //                    dx = dx-(getScrollX()+indicatorLayoutWidth/2);
-                     startScroll(dx-(getScrollX()+indicatorLayoutWidth/2),mScroller);
+                    startScroll(dx - (getScrollX() + indicatorLayoutWidth / 2), mScroller);
 
 //                    if (getScrollX()+dx>getWidth()-indicatorLayoutWidth){
 ////                    scrollTo(getWidth()-indicatorLayoutWidth,0);
@@ -367,19 +387,20 @@ public class PageTabIndicator extends RelativeLayout{
 
     /**
      * 根据点击区域确定点击的是哪个tab
+     *
      * @param mDownX
      */
     private void responseOnClick(int mDownX) {
         int clickPosition = -1;
-        if (indicatorAverageScreen){
+        if (indicatorAverageScreen) {
             //处理tab等宽
-            clickPosition = (int) (mDownX/(tabWidthArray[0]+indicatorTwoTabDistance));
-        }else {
+            clickPosition = (int) (mDownX / (tabWidthArray[0] + indicatorTwoTabDistance));
+        } else {
             //处理tab自适应宽度时候的点击
             int width = 0;
-            for (int i=0;i<tabWidthArray.length;i++){
+            for (int i = 0; i < tabWidthArray.length; i++) {
                 width += tabWidthArray[i];
-                if (width>mDownX){
+                if (width > mDownX) {
                     clickPosition = i;
                     break;
                 }
@@ -387,12 +408,13 @@ public class PageTabIndicator extends RelativeLayout{
             }
         }
 
-        if (mViewPager!=null && clickPosition!=-1)
+        if (mViewPager != null && clickPosition != -1)
             mViewPager.setCurrentItem(clickPosition);
     }
 
     /**
      * 设置指示器横线是否宽度填充满tab
+     *
      * @param indicatorFillWidthWithTab
      */
     public void setIndicatorFillWidthWithTab(boolean indicatorFillWidthWithTab) {

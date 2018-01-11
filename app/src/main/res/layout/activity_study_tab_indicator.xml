@@ -10,9 +10,12 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="#fafdfa"
-        app:IndicatorTwoTabDistance="20dp"
-        app:IndicatorLeftRightPadding="6dp"
+        app:IndicatorTwoTabDistance="5dp"
+        app:IndicatorLeftRightPadding="10dp"
+        app:IndicatorDrawTabBackground="true"
         app:IndicatorAverageScreen="false"
+        app:IndicatorTextColor="#0ce409"
+        app:IndicatorLineColor="#0ce409"
         app:IndicatorTextSize="14sp"/>
 
 
@@ -21,14 +24,4 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="横线填满tab/自适应文本宽度"
-        android:onClick="setIndicatorFillWidthWithTab"/>
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="tab自适应宽度/均分屏幕"
-        android:onClick="setIndicatorAverageScreen"/>
 </LinearLayout>
