@@ -2,7 +2,11 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.xulc.algorithmstudy">
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.CALL_PHONE"/>
     <application
         android:allowBackup="true"
         android:name=".MyApplication"
@@ -19,14 +23,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".MainActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ListViewActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".TestBgaRefreshActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".StudyActivity" android:screenOrientation="portrait"/>
         <activity android:name=".LearnActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ViewPagerActivity" android:screenOrientation="portrait"/>
         <activity android:name=".TestIrregularActivity" android:screenOrientation="portrait"/>
         <activity android:name=".BezierHeaderActivity" android:screenOrientation="portrait"/>
         <activity android:name=".StudyTabIndicatorActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".StudyPermissionActivity" android:screenOrientation="portrait"/>
 
     </application>
 

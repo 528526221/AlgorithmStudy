@@ -12,48 +12,41 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="打开MainActivity"
+                android:textAllCaps="false"
+                android:text="谷歌官方的SwipeRefreshLayout"
                 android:onClick="openMain"/>
+
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="打开ListViewActivity"
-                android:onClick="openListView"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="打开TestBga"
-                android:onClick="openTestBga"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="打开Study"
-                android:onClick="openStudy"/>
-            <Button
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="打开Learn"
+                android:text="学习自定义下拉上拉框架"
                 android:onClick="openLearn"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="openViewPager"
-                android:text="open View Pager"/>
+                android:textAllCaps="false"
+                android:text="学习循环View Pager"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="openIrregular"
-                android:text="open Irregular"/>
+                android:text="自定义标签容器"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="openBezierHeaderView"
-                android:text="openBezierHeaderView"/>
+                android:text="自定义贝塞尔下拉刷新"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="openTabIndicator"
-                android:text="openTabIndicator"/>
+                android:text="自定义tab指示器"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="studyPermission"
+                android:text="学习权限"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
