@@ -7,4 +7,8 @@
         android:layout_height="wrap_content"
         android:onClick="startLocation"
         android:text="定位"/>
+    <com.amap.api.maps2d.MapView
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>

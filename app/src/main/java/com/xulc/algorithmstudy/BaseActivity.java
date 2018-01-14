@@ -1,5 +1,6 @@
 package com.xulc.algorithmstudy;
 
+import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -31,6 +32,7 @@ public class BaseActivity extends AppCompatActivity {
         void onDenied();
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
     public void requestRuntimePermission(String[] permissions, PermissionCallBackListener listener) {
         this.listener = listener;
@@ -43,6 +45,7 @@ public class BaseActivity extends AppCompatActivity {
 
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
     public boolean shouldShowRequestPermissionRationales(String[] permissions) {
         //有一项权限不需要向用户说明的话，那么不必向用户说明了
@@ -54,6 +57,7 @@ public class BaseActivity extends AppCompatActivity {
         return true;
     }
 
+    @TargetApi(Build.VERSION_CODES.M)
     @RequiresApi(api = Build.VERSION_CODES.M)
     public int checkSelfPermissions(String[] permissions) {
         //判断权限组 有一项权限被拒绝了，那么结果就是被拒绝
@@ -95,6 +99,7 @@ public class BaseActivity extends AppCompatActivity {
                                 }
                             })
                             .setPositiveButton("好吧好吧", new DialogInterface.OnClickListener() {
+                                @TargetApi(Build.VERSION_CODES.M)
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     requestPermissions(needPermissions, REQUEST_LOCATION_PERMISSION_CODE);
