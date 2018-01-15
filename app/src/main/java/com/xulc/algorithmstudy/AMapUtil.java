@@ -92,10 +92,18 @@ public class AMapUtil {
             //给定位客户端对象设置定位参数
             mLocationClient.setLocationOption(mLocationOption);
             //设置定位回调监听
-            mLocationClient.setLocationListener(mLocationListener);
         }
+        mLocationClient.setLocationListener(mLocationListener);
+
         //启动定位
         mLocationClient.startLocation();
+
+    }
+    /**
+     * 定位完成后取消注册监听
+     */
+    public void removeListener(){
+        mLocationClient.unRegisterLocationListener(mLocationListener);
 
     }
 

@@ -11,17 +11,12 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
-import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.amap.api.maps2d.AMap;
-import com.amap.api.maps2d.LocationSource;
 import com.amap.api.maps2d.MapView;
-import com.amap.api.maps2d.model.MyLocationStyle;
 
 /**
  * Date：2018/1/11
@@ -78,6 +73,7 @@ public class StudyPermissionActivity extends BaseActivity implements BaseActivit
             AMapUtil.getInstance().getCurrentLocation(new AMapLocationListener() {
                 @Override
                 public void onLocationChanged(AMapLocation aMapLocation) {
+                    AMapUtil.getInstance().removeListener();
                     if (aMapLocation != null) {
                         if (aMapLocation.getErrorCode() == 0) {
                         //可在其中解析amapLocation获取相应内容。
