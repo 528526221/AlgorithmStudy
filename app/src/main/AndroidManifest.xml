@@ -31,20 +31,22 @@
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="CTcKIUXruoNAL3OC0lmrWM9OZnMCsgKj" >
         </meta-data>
-        <activity android:name=".GuideActivity">
+        <activity android:name=".ui.GuideActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".LearnActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ViewPagerActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".TestIrregularActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".BezierHeaderActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".StudyTabIndicatorActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".StudyPermissionActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.MainActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.LearnActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.ViewPagerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.TestIrregularActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.BezierHeaderActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.StudyTabIndicatorActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.StudyPermissionActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.BatteryTestActivity" android:screenOrientation="portrait"/>
+
         <service android:name="com.amap.api.location.APSService"/>
     </application>
 

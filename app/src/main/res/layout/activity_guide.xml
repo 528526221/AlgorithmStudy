@@ -12,6 +12,11 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:text="白名单测试"
+                android:onClick="openTestBattery"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:textAllCaps="false"
                 android:text="谷歌官方的SwipeRefreshLayout"
                 android:onClick="openMain"/>

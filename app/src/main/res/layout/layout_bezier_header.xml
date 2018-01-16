@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="80dp">
-    <com.xulc.algorithmstudy.BezierView
+    <com.xulc.algorithmstudy.widget.BezierView
         android:id="@+id/bezierView"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <com.xulc.algorithmstudy.PageTabIndicator
+    <com.xulc.algorithmstudy.widget.PageTabIndicator
         android:id="@+id/tabIndicator"
         android:layout_width="match_parent"
         android:layout_height="40dp"

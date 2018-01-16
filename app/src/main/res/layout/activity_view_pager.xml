@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         >
-        <com.xulc.algorithmstudy.LoopViewPager
+        <com.xulc.algorithmstudy.widget.LoopViewPager
             android:id="@+id/viewPager"
             android:layout_width="match_parent"
             android:paddingLeft="20dp"
@@ -16,7 +16,7 @@
             android:clipToPadding="false"
             android:layout_centerHorizontal="true" />
     </RelativeLayout>
-    <com.xulc.algorithmstudy.BezierCircleIndicator
+    <com.xulc.algorithmstudy.widget.BezierCircleIndicator
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 </LinearLayout>
