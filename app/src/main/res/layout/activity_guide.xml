@@ -52,6 +52,11 @@
                 android:layout_height="wrap_content"
                 android:onClick="studyPermission"
                 android:text="学习权限"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="studyTouchDispatch"
+                android:text="学习事件分发"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

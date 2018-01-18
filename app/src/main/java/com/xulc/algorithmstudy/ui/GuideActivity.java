@@ -104,4 +104,9 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
     public void openTestBattery(View view) {
         startActivity(new Intent(this,BatteryTestActivity.class));
     }
+
+    public void studyTouchDispatch(View view) {
+        startActivity(new Intent(this,StudyTouchDispatchActivity.class));
+
+    }
 }

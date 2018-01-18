@@ -46,6 +46,7 @@
         <activity android:name=".ui.StudyTabIndicatorActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.StudyPermissionActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BatteryTestActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.StudyTouchDispatchActivity" android:screenOrientation="portrait"/>
 
         <service android:name="com.amap.api.location.APSService"/>
     </application>
