@@ -45,6 +45,9 @@ public class StudyRefreshView extends ViewGroup {
     private Scroller mScroller;
     private int mLastMoveY;//滑动时y的上次值
     private boolean loadNoMoreData;//上拉没有更多数据
+    private int dampingCoefficient = 2;//拉到临界点后的阻尼系数,默认为2，代表临界点是非临界点的2倍
+    private boolean canRefresh = true;//是否支持下拉刷新
+    private boolean canLoadMore = true;//是否支持上拉加载
 
 
     public StudyRefreshView(Context context) {
@@ -74,6 +77,32 @@ public class StudyRefreshView extends ViewGroup {
      */
     public void setRefreshLoadListener(OnRefreshLoadListener refreshLoadListener) {
         this.refreshLoadListener = refreshLoadListener;
+    }
+
+    /**
+     * 设置临界点阻尼系数
+     * @param dampingCoefficient
+     */
+    public void setDampingCoefficient(int dampingCoefficient) {
+        this.dampingCoefficient = dampingCoefficient;
+    }
+
+    /**
+     * 设置是否支持下拉刷新  默认支持
+     * @param canRefresh
+     */
+    public void setCanRefresh(boolean canRefresh) {
+        resetHeaderNormal();
+        this.canRefresh = canRefresh;
+    }
+
+    /**
+     * 设置是否支持上拉加载 默认支持
+     * @param canLoadMore
+     */
+    public void setCanLoadMore(boolean canLoadMore) {
+        resetFooterNormal();
+        this.canLoadMore = canLoadMore;
     }
 
     @Override
@@ -187,6 +216,7 @@ public class StudyRefreshView extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
+
         if (mStatus == Status.REFRESHING || mStatus == Status.LOADING){
             return true;
         }
@@ -198,12 +228,28 @@ public class StudyRefreshView extends ViewGroup {
                 break;
             case MotionEvent.ACTION_MOVE:
                 int dy = mLastMoveY - y;
+
                 if (dy<=0&&getScrollY() <= -headViewHeight){
-                    scrollBy(0, dy / 10);
+                    scrollBy(0, dy /(3 *dampingCoefficient) );
                 }else if (dy>=0&&getScrollY() >= footViewHeight){
-                    scrollBy(0, dy / 10);
+                    scrollBy(0, dy / (3 *dampingCoefficient));
                 }else {
-                    scrollBy(0, dy / 3);
+                    //控制是否支持上拉或者下拉的操作只要在这里做就可以了
+                    //在canRefresh的情况下能够scrollBy的条件有2个：dy<0;dy虽然大于0处于上拉操作但是整体的偏移量是负值（下拉头部出来了）
+                    if (canRefresh){
+                        if (dy<=0){
+                            scrollBy(0, dy / 3);
+                        }else if (getScrollY()<0){
+                            scrollBy(0, Math.min(dy,Math.abs(getScrollY())) / 3);
+                        }
+                    }
+                    if (canLoadMore){
+                        if (dy>=0){
+                            scrollBy(0, dy / 3);
+                        }else if (getScrollY()>0){
+                            scrollBy(0, -Math.min(getScrollY(),Math.abs(dy)) / 3);
+                        }
+                    }
                 }
 //                if (getScrollY() <= 0 && dy <= 0) {
 //                    // 一直在下拉

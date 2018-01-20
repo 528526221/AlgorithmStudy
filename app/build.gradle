@@ -45,5 +45,6 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile 'com.amap.api:map2d:latest.integration'
     compile 'com.amap.api:location:latest.integration'
+    compile 'com.tencent.bugly:crashreport:latest.release'
 
 }

@@ -109,4 +109,9 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
         startActivity(new Intent(this,StudyTouchDispatchActivity.class));
 
     }
+
+    public void studyAIDL(View view) {
+        startActivity(new Intent(this,ActivityMessenger.class));
+
+    }
 }

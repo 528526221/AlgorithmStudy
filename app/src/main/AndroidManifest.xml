@@ -16,6 +16,7 @@
     <!--允许程序访问WiFi网络信息-->
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
 
 
@@ -47,8 +48,22 @@
         <activity android:name=".ui.StudyPermissionActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BatteryTestActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.StudyTouchDispatchActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.ActivityMessenger" android:screenOrientation="portrait"/>
 
         <service android:name="com.amap.api.location.APSService"/>
+        <service android:name=".ui.MessengerServiceDemo"
+            android:process=":messenger">
+            <intent-filter>
+                <action android:name="com.xulc.algorithmstudy"></action>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
+        <service
+            android:name=".ui.PushService"
+            android:enabled="true"
+            android:process=":push"
+            android:exported="true">
+        </service>
     </application>
 
 </manifest>

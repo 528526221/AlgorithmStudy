@@ -40,6 +40,8 @@ public class BezierHeaderActivity extends AppCompatActivity{
         adapter = new RecyclerViewAdapter(this,strings);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+//        studyRefreshView.setCanLoadMore(false);
+        studyRefreshView.setCanRefresh(false);
         Button b=new Button(this);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,7 +49,7 @@ public class BezierHeaderActivity extends AppCompatActivity{
 
             }
         });
-        for (int i=0;i<15;i++){
+        for (int i=0;i<40;i++){
             strings.add("TEST"+i);
         }
 
