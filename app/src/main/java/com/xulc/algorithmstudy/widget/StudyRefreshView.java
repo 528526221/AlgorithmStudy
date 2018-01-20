@@ -236,14 +236,15 @@ public class StudyRefreshView extends ViewGroup {
                 }else {
                     //控制是否支持上拉或者下拉的操作只要在这里做就可以了
                     //在canRefresh的情况下能够scrollBy的条件有2个：dy<0;dy虽然大于0处于上拉操作但是整体的偏移量是负值（下拉头部出来了）
-                    if (canRefresh){
+                    if (canRefresh && canLoadMore){
+                        scrollBy(0, dy / 3);
+                    }else if (canRefresh){
                         if (dy<=0){
                             scrollBy(0, dy / 3);
                         }else if (getScrollY()<0){
                             scrollBy(0, Math.min(dy,Math.abs(getScrollY())) / 3);
                         }
-                    }
-                    if (canLoadMore){
+                    }else if (canLoadMore){
                         if (dy>=0){
                             scrollBy(0, dy / 3);
                         }else if (getScrollY()>0){
