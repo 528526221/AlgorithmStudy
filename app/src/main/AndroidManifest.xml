@@ -17,9 +17,12 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS"/>
     <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-feature android:name="android.hardware.location.gps" />
 
-
-
+    <uses-permission android:name="android.permission.BLUETOOTH"/>
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
+    <uses-feature android:name="android.bluetooth.le" android:required="true"/>
+    <!--第一个权限是应用使用蓝牙的权限，第二个权限是扫描蓝牙设备或者操作蓝牙设置等等的权限，第三个是将required设置为true则强制应用只能再支持ble的设备上运行。-->
     <application
         android:allowBackup="true"
         android:name=".MyApplication"
@@ -49,8 +52,11 @@
         <activity android:name=".ui.BatteryTestActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.StudyTouchDispatchActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.ActivityMessenger" android:screenOrientation="portrait"/>
-
+        <activity android:name=".ui.StudyBluetoothActivity" android:screenOrientation="portrait"/>
+        <!--高德服务-->
         <service android:name="com.amap.api.location.APSService"/>
+        <!--第三方蓝牙通信库服务-->
+        <service android:name="com.inuker.bluetooth.library.BluetoothService" />
         <service android:name=".ui.MessengerServiceDemo"
             android:process=":messenger">
             <intent-filter>

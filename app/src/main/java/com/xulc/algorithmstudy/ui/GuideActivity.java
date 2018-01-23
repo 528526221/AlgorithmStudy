@@ -9,10 +9,16 @@ import android.os.Bundle;
 import android.os.Looper;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
 import com.xulc.algorithmstudy.R;
+import com.xulc.algorithmstudy.model.TestReflect;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 
 import static android.provider.Settings.ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS;
 
@@ -31,11 +37,6 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
         PowerManager pm = (PowerManager) getSystemService(Context.POWER_SERVICE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (!pm.isIgnoringBatteryOptimizations(packageName)){
-//                Intent intent = new Intent();
-//                intent.setAction(ACTION_IGNORE_BATTERY_OPTIMIZATION_SETTINGS);
-//
-//                startActivity(intent);
-
                 Intent intent = new Intent();
                 intent.setAction(ACTION_REQUEST_IGNORE_BATTERY_OPTIMIZATIONS);
                 intent.setData(Uri.parse("package:com.xulc.algorithmstudy"));
@@ -55,6 +56,28 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             requestRuntimePermission(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE,Manifest.permission.WRITE_EXTERNAL_STORAGE},this);
+        }
+
+        TestReflect testReflect = new TestReflect("xuliangchun",26);
+        try {
+            Field field = TestReflect.class.getDeclaredField("age");
+            field.setAccessible(true);
+            int age = (int) field.get(testReflect);
+            Log.i("xlc",age+"");
+
+            Method method = TestReflect.class.getDeclaredMethod("getName");
+            method.setAccessible(true);
+            String name = (String) method.invoke(testReflect);
+            Log.i("xlc",name+"");
+
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
         }
     }
 
@@ -113,5 +136,9 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
     public void studyAIDL(View view) {
         startActivity(new Intent(this,ActivityMessenger.class));
 
+    }
+
+    public void studyBluetooth(View view) {
+        startActivity(new Intent(this,StudyBluetoothActivity.class));
     }
 }
