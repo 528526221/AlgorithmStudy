@@ -10,15 +10,11 @@ import com.inuker.bluetooth.library.search.SearchResult;
 
 public class StudyBluetoothModel {
     private SearchResult searchResult;
-    private boolean isBonded;
+    private int bondState;   // bondState = Constants.BOND_NONE, BOND_BONDING, BOND_BONDED
 
-    public StudyBluetoothModel(SearchResult searchResult) {
+    public StudyBluetoothModel(SearchResult searchResult, int bondState) {
         this.searchResult = searchResult;
-    }
-
-    public StudyBluetoothModel(SearchResult searchResult, boolean isBonded) {
-        this.searchResult = searchResult;
-        this.isBonded = isBonded;
+        this.bondState = bondState;
     }
 
     public SearchResult getSearchResult() {
@@ -29,19 +25,17 @@ public class StudyBluetoothModel {
         this.searchResult = searchResult;
     }
 
-    public boolean isBonded() {
-        return isBonded;
-    }
 
-    public void setBonded(boolean bonded) {
-        isBonded = bonded;
-    }
 
     public String getName(){
-        if (searchResult.getName().equals("NULL")){
-            return searchResult.getAddress();
-        }else {
-            return searchResult.getName();
-        }
+        return searchResult.getName();
+    }
+
+    public int getBondState() {
+        return bondState;
+    }
+
+    public void setBondState(int bondState) {
+        this.bondState = bondState;
     }
 }

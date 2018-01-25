@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.inuker.bluetooth.library.Constants;
 import com.xulc.algorithmstudy.R;
 import com.xulc.algorithmstudy.model.StudyBluetoothModel;
 
@@ -59,16 +60,31 @@ public class BluetoothDeviceAdapter extends BaseAdapter{
             holder = (Holder) convertView.getTag();
         }
         holder.tvDeviceName.setText(scanResults.get(position).getName());
-        holder.tvBindStatus.setText(scanResults.get(position).isBonded()?"已绑定":"新设备");
+        holder.tvMacAddress.setText(scanResults.get(position).getSearchResult().getAddress());
+        switch (scanResults.get(position).getBondState()){
+            case Constants.BOND_NONE:
+                holder.tvBindStatus.setText("未绑定");
+                break;
+            case Constants.BOND_BONDING:
+                holder.tvBindStatus.setText("正在绑定");
+                break;
+            case Constants.BOND_BONDED:
+                holder.tvBindStatus.setText("已绑定");
+                break;
+        }
+
+
         return convertView;
     }
 
     static class Holder{
         TextView tvDeviceName;
         TextView tvBindStatus;
+        TextView tvMacAddress;
         public Holder(View itemView) {
             tvDeviceName = itemView.findViewById(R.id.tvDeviceName);
             tvBindStatus = itemView.findViewById(R.id.tvBindStatus);
+            tvMacAddress = itemView.findViewById(R.id.tvMacAddress);
         }
     }
 }
