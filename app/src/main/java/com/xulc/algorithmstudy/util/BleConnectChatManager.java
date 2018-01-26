@@ -7,7 +7,6 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.widget.Toast;
 
 import com.xulc.algorithmstudy.MyApplication;
@@ -24,6 +23,8 @@ import java.util.UUID;
 public class BleConnectChatManager {
     private static BleConnectChatManager manager;
     private final UUID BLE_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
+    private final int MAX_BUFFER_SIZE = 1024;
+
     public static final int STATUS_DISCONNECT = 0;
     public static final int STATUS_WAIT_CONNECT = 1;
     public static final int STATUS_CONNECTING = 2;
@@ -180,14 +181,17 @@ public class BleConnectChatManager {
                 sendHandlerStatus(MSG_WHAT_STATUS_CHANGE,STATUS_CONNECTED);
 
                 isCancel = false;
-                byte[] bytes = new byte[1024];
+                byte[] buffer = new byte[MAX_BUFFER_SIZE];
+                int byteLength;
                 while (true) {
-                    Log.i("xlc", "check11");
                     if (isCancel){
                         break;
                     }
-                    if (bluetoothSocket.getInputStream().read(bytes) != -1) {
-                        sendHandlerMessage(MSG_WHAT_ACCEPT_MESSAGE,bytes);
+                    byteLength = bluetoothSocket.getInputStream().read(buffer);
+                    if (byteLength != -1) {
+                        byte[] data = new byte[byteLength];
+                        System.arraycopy(buffer,0,data,0,byteLength);
+                        sendHandlerMessage(MSG_WHAT_ACCEPT_MESSAGE,data);
                     }
                 }
             } catch (IOException e) {
@@ -223,14 +227,17 @@ public class BleConnectChatManager {
                 sendHandlerStatus(MSG_WHAT_STATUS_CHANGE,STATUS_CONNECTED);
 
                 isCancel = false;
-                byte[] bytes = new byte[1024];
+                byte[] buffer = new byte[MAX_BUFFER_SIZE];
+                int byteLength;//本地读取到的字节长度
                 while (true) {
-                    Log.i("xlc", "check");
                     if (isCancel){
                         break;
                     }
-                    if (bluetoothSocket.getInputStream().read(bytes) != -1) {
-                        sendHandlerMessage(MSG_WHAT_ACCEPT_MESSAGE,bytes);
+                    byteLength = bluetoothSocket.getInputStream().read(buffer);
+                    if (byteLength != -1) {
+                        byte[] data = new byte[byteLength];
+                        System.arraycopy(buffer,0,data,0,byteLength);
+                        sendHandlerMessage(MSG_WHAT_ACCEPT_MESSAGE,data);
                     }
                 }
             } catch (IOException e) {

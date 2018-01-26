@@ -41,7 +41,7 @@ public class BezierHeaderActivity extends AppCompatActivity{
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
 //        studyRefreshView.setCanLoadMore(false);
-        studyRefreshView.setCanRefresh(false);
+//        studyRefreshView.setCanRefresh(false);
         Button b=new Button(this);
         b.setOnClickListener(new View.OnClickListener() {
             @Override
