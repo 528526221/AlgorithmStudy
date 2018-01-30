@@ -25,7 +25,7 @@ import java.util.List;
 
 /**
  * Date：2017/12/18
- * Desc：
+ * Desc：第三方的循环ViewPager实现  在少于3张时无法显示
  * Created by xuliangchun.
  */
 

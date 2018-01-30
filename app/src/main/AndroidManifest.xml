@@ -56,6 +56,8 @@
         <activity android:name=".ui.StudyBluetoothActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BluetoothChatClientActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BluetoothChatServerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.StudyCyclicViewPagerActivity" android:screenOrientation="portrait"/>
+
         <!--高德服务-->
         <service android:name="com.amap.api.location.APSService"/>
         <!--第三方蓝牙通信库服务-->
