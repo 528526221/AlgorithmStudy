@@ -7,6 +7,7 @@ import android.bluetooth.BluetoothSocket;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.xulc.algorithmstudy.MyApplication;
@@ -36,7 +37,9 @@ public class BleConnectChatManager {
     private final int MSG_WHAT_STATUS_CHANGE = 3;
 
 
-    private BluetoothSocket bluetoothSocket;
+    private BluetoothSocket bluetoothClientSocket;
+    private BluetoothSocket bluetoothRemoteSocket;
+
     private BluetoothDevice remoteDevice;
     private OnBleConnectListener connectListener;
     private AcceptThread acceptThread;
@@ -125,13 +128,11 @@ public class BleConnectChatManager {
      * @param message
      */
     public void sendMessage(String message) {
-        if (bluetoothSocket != null) {
-            if (connectThread!=null){
-                connectThread.sendMessage(message);
-            }else if (acceptThread!=null){
-                acceptThread.sendMessage(message);
-            }
-        } else {
+        if (connectThread!=null && bluetoothClientSocket!=null){
+            connectThread.sendMessage(message);
+        }else if (acceptThread!=null && bluetoothRemoteSocket!=null){
+            acceptThread.sendMessage(message);
+        }else {
             Toast.makeText(MyApplication.getContext(), "未建立连接无法发送消息", Toast.LENGTH_LONG).show();
         }
     }
@@ -145,14 +146,22 @@ public class BleConnectChatManager {
         handler.removeMessages(MSG_WHAT_STATUS_CHANGE);
         handler.removeMessages(MSG_WHAT_ACCEPT_MESSAGE);
         handler.removeMessages(MSG_WHAT_SEND_MESSAGE);
-        if (bluetoothSocket != null) {
+        if (bluetoothClientSocket != null) {
             try {
-                bluetoothSocket.close();
+                bluetoothClientSocket.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        bluetoothSocket = null;
+        bluetoothClientSocket = null;
+        if (bluetoothRemoteSocket != null) {
+            try {
+                bluetoothRemoteSocket.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        bluetoothRemoteSocket = null;
         connectThread = null;
         acceptThread = null;
         sendHandlerStatus(MSG_WHAT_STATUS_CHANGE,STATUS_DISCONNECT);
@@ -174,10 +183,10 @@ public class BleConnectChatManager {
         public void run() {
             super.run();
             try {
-                bluetoothSocket = remoteDevice.createRfcommSocketToServiceRecord(BLE_UUID);
+                bluetoothClientSocket = remoteDevice.createRfcommSocketToServiceRecord(BLE_UUID);
                 sendHandlerStatus(MSG_WHAT_STATUS_CHANGE,STATUS_CONNECTING);
 
-                bluetoothSocket.connect();
+                bluetoothClientSocket.connect();
                 sendHandlerStatus(MSG_WHAT_STATUS_CHANGE,STATUS_CONNECTED);
 
                 isCancel = false;
@@ -185,9 +194,10 @@ public class BleConnectChatManager {
                 int byteLength;
                 while (true) {
                     if (isCancel){
+                        Log.i("xlc","客户机停止读取消息");
                         break;
                     }
-                    byteLength = bluetoothSocket.getInputStream().read(buffer);
+                    byteLength = bluetoothClientSocket.getInputStream().read(buffer);
                     if (byteLength != -1) {
                         byte[] data = new byte[byteLength];
                         System.arraycopy(buffer,0,data,0,byteLength);
@@ -206,7 +216,7 @@ public class BleConnectChatManager {
             try {
                 sendHandlerMessage(MSG_WHAT_SEND_MESSAGE,message.getBytes());
 
-                bluetoothSocket.getOutputStream().write(message.getBytes());
+                bluetoothClientSocket.getOutputStream().write(message.getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -223,7 +233,7 @@ public class BleConnectChatManager {
             try {
                 BluetoothServerSocket serverSocket = BluetoothAdapter.getDefaultAdapter().listenUsingRfcommWithServiceRecord("xulc_server", BLE_UUID);
                 sendHandlerStatus(MSG_WHAT_STATUS_CHANGE,STATUS_WAIT_CONNECT);
-                bluetoothSocket = serverSocket.accept();
+                bluetoothRemoteSocket = serverSocket.accept();
                 sendHandlerStatus(MSG_WHAT_STATUS_CHANGE,STATUS_CONNECTED);
 
                 isCancel = false;
@@ -231,9 +241,10 @@ public class BleConnectChatManager {
                 int byteLength;//本地读取到的字节长度
                 while (true) {
                     if (isCancel){
+                        Log.i("xlc","服务机停止读取消息");
                         break;
                     }
-                    byteLength = bluetoothSocket.getInputStream().read(buffer);
+                    byteLength = bluetoothRemoteSocket.getInputStream().read(buffer);
                     if (byteLength != -1) {
                         byte[] data = new byte[byteLength];
                         System.arraycopy(buffer,0,data,0,byteLength);
@@ -251,7 +262,7 @@ public class BleConnectChatManager {
         void sendMessage(String message){
             try {
                 sendHandlerMessage(MSG_WHAT_SEND_MESSAGE,message.getBytes());
-                bluetoothSocket.getOutputStream().write(message.getBytes());
+                bluetoothRemoteSocket.getOutputStream().write(message.getBytes());
 
             } catch (IOException e) {
                 e.printStackTrace();
