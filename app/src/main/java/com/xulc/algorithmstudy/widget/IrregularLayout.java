@@ -78,6 +78,7 @@ public class IrregularLayout extends ViewGroup{
             }
             int childLeft = childRowWidth;
             int childTop = (int) ((childRow-1)*(child.getMeasuredHeight()+itemVerSpace));
+            //这里childTop的计算方式对于不止一行的标签时会出现计算错误 有时间再优化
             int childRight = childLeft+child.getMeasuredWidth();
             int childBottom = childTop + child.getMeasuredHeight();
             child.layout(childLeft,childTop,childRight,childBottom);
