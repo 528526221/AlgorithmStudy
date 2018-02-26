@@ -11,6 +11,7 @@ import android.widget.LinearLayout;
  * Desc：目前只知道默认的down-move-up都会先走父容器的dispatchTouchEvent以及onInterceptTouchEvent
  * 但是像listview这种滑动控件里面可能做了什么操作使得父容器针对move和up操作不会拦截
  * 想要完全保持拦截的话，空实现requestDisallowInterceptTouchEvent方法就好了
+ * down事件没有人消费的话 那么move 和 up都不会传递了
  * Created by xuliangchun.
  */
 
