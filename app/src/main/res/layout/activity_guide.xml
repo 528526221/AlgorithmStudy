@@ -73,6 +73,12 @@
                 android:onClick="studyCircleViewPager"
                 android:textAllCaps="false"
                 android:text="探索循环ViewPager"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="studyZxing"
+                android:textAllCaps="false"
+                android:text="探索二维码扫描"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

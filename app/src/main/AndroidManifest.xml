@@ -8,6 +8,8 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.FLASHLIGHT" />
     //定位包、导航包需要的额外权限（注：基础权限也需要）
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
@@ -51,30 +53,24 @@
         <activity android:name=".ui.StudyPermissionActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BatteryTestActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.StudyTouchDispatchActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".ui.ActivityMessenger" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BluetoothDeviceActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.StudyBluetoothActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BluetoothChatClientActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.BluetoothChatServerActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.StudyCyclicViewPagerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.AIDLActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.QrCodeScanActivity" android:screenOrientation="portrait"/>
+
+        <service android:name=".ui.MyService"
+            android:process="com.xulc.aidl.remote"/>
+        <service android:name=".ui.YourService" />
 
         <!--高德服务-->
         <service android:name="com.amap.api.location.APSService"/>
         <!--第三方蓝牙通信库服务-->
         <service android:name="com.inuker.bluetooth.library.BluetoothService" />
-        <service android:name=".ui.MessengerServiceDemo"
-            android:process=":messenger">
-            <intent-filter>
-                <action android:name="com.xulc.algorithmstudy"></action>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </service>
-        <service
-            android:name=".ui.PushService"
-            android:enabled="true"
-            android:process=":push"
-            android:exported="true">
-        </service>
+
+
     </application>
 
 </manifest>

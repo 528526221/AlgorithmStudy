@@ -124,8 +124,7 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
     }
 
     public void studyAIDL(View view) {
-        startActivity(new Intent(this,ActivityMessenger.class));
-
+        startActivity(new Intent(this,AIDLActivity.class));
     }
 
     public void studyBluetooth(View view) {
@@ -134,5 +133,11 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
 
     public void studyCircleViewPager(View view) {
         startActivity(new Intent(this,StudyCyclicViewPagerActivity.class));
+    }
+
+
+    public void studyZxing(View view) {
+        startActivity(new Intent(this,QrCodeScanActivity.class));
+
     }
 }
