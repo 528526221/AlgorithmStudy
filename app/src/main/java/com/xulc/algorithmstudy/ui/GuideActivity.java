@@ -148,4 +148,8 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
         startActivity(new Intent(this,StudyWebViewActivity.class));
 
     }
+
+    public void testBuglyTinker(View view) {
+        startActivity(new Intent(this,TestBuglyTinkerActivity.class));
+    }
 }

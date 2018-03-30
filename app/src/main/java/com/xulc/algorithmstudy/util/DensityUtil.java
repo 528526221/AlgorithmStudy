@@ -8,7 +8,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
-import com.xulc.algorithmstudy.MyApplication;
+import com.xulc.algorithmstudy.MyApplicationLike;
 
 public class DensityUtil {
     private static DensityUtil densityUtil;
@@ -31,7 +31,7 @@ public class DensityUtil {
                 if (densityUtil == null){
                     densityUtil = new DensityUtil();
                     if (screenW == 0 || screenH == 0) {
-                        DisplayMetrics metrics = MyApplication.getContext().getResources().getDisplayMetrics();
+                        DisplayMetrics metrics = MyApplicationLike.getContext().getResources().getDisplayMetrics();
                         screenW = metrics.widthPixels;
                         screenH = metrics.heightPixels;
                         density = metrics.density;

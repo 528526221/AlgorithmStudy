@@ -91,6 +91,12 @@
                 android:onClick="studyWebView"
                 android:textAllCaps="false"
                 android:text="WebView不是那么简单"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="testBuglyTinker"
+                android:textAllCaps="false"
+                android:text="Bugly的Tinker测试"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

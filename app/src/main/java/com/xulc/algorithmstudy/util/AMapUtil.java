@@ -3,7 +3,7 @@ package com.xulc.algorithmstudy.util;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
-import com.xulc.algorithmstudy.MyApplication;
+import com.xulc.algorithmstudy.MyApplicationLike;
 
 /**
  * 高德地图工具类
@@ -37,7 +37,7 @@ public class AMapUtil {
         this.mLocationListener = listener;
         if (mLocationClient == null) {
             //初始化定位
-            mLocationClient = new AMapLocationClient(MyApplication.getContext());
+            mLocationClient = new AMapLocationClient(MyApplicationLike.getContext());
             //初始化AMapLocationClientOption对象
             AMapLocationClientOption mLocationOption = new AMapLocationClientOption();
 

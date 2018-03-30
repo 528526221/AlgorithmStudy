@@ -10,7 +10,7 @@ import android.os.Message;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.xulc.algorithmstudy.MyApplication;
+import com.xulc.algorithmstudy.MyApplicationLike;
 
 import java.io.IOException;
 import java.util.UUID;
@@ -133,7 +133,7 @@ public class BleConnectChatManager {
         }else if (acceptThread!=null && bluetoothRemoteSocket!=null){
             acceptThread.sendMessage(message);
         }else {
-            Toast.makeText(MyApplication.getContext(), "未建立连接无法发送消息", Toast.LENGTH_LONG).show();
+            Toast.makeText(MyApplicationLike.getContext(), "未建立连接无法发送消息", Toast.LENGTH_LONG).show();
         }
     }
 

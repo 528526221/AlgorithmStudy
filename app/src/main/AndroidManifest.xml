@@ -64,6 +64,7 @@
         <activity android:name=".ui.QrCodeScanActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.RecyclerViewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.StudyWebViewActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.TestBuglyTinkerActivity" android:screenOrientation="portrait"/>
 
         <service android:name=".ui.MyService"
             android:process="com.xulc.aidl.remote"/>
@@ -74,6 +75,20 @@
         <!--第三方蓝牙通信库服务-->
         <service android:name="com.inuker.bluetooth.library.BluetoothService" />
 
+        <activity
+            android:name="com.tencent.bugly.beta.ui.BetaActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize|locale"
+            android:theme="@android:style/Theme.Translucent" />
+
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/provider_paths"/>
+        </provider>
 
     </application>
 

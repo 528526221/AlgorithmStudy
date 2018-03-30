@@ -1,10 +1,7 @@
 package com.xulc.algorithmstudy;
 
-import android.app.Application;
-import android.content.Context;
-
-import com.tencent.bugly.Bugly;
-import com.tencent.bugly.beta.Beta;
+import com.tencent.tinker.loader.app.TinkerApplication;
+import com.tencent.tinker.loader.shareutil.ShareConstants;
 
 /**
  * Date：2017/12/13
@@ -12,23 +9,12 @@ import com.tencent.bugly.beta.Beta;
  * Created by xuliangchun.
  */
 
-public class MyApplication extends Application {
-    private static Context mContext;
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        mContext = this;
-        Bugly.init(this,"828bf724a7",true);
+public class MyApplication extends TinkerApplication {
 
-    }
 
-    public static Context getContext() {
-        return mContext;
-    }
+    public MyApplication() {
+        super(ShareConstants.TINKER_ENABLE_ALL, "com.xulc.algorithmstudy.MyApplicationLike",
+                "com.tencent.tinker.loader.TinkerLoader", false);    }
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        Beta.installTinker();
-    }
+
 }
