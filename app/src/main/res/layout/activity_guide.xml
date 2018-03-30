@@ -12,7 +12,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="白名单测试"
+                android:text="探索白名单测试"
                 android:onClick="openTestBattery"/>
             <Button
                 android:layout_width="match_parent"
@@ -31,7 +31,7 @@
                 android:layout_height="wrap_content"
                 android:onClick="openViewPager"
                 android:textAllCaps="false"
-                android:text="学习循环View Pager"/>
+                android:text="探索循环View Pager"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -51,22 +51,22 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="studyPermission"
-                android:text="学习权限"/>
+                android:text="探索权限"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="studyTouchDispatch"
-                android:text="学习事件分发"/>
+                android:text="探索事件分发"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="studyAIDL"
-                android:text="学习Aidl"/>
+                android:text="探索Aidl"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:onClick="studyBluetooth"
-                android:text="学习蓝牙"/>
+                android:text="探索蓝牙"/>
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -79,6 +79,18 @@
                 android:onClick="studyZxing"
                 android:textAllCaps="false"
                 android:text="探索二维码扫描"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="studyRecyclerView"
+                android:textAllCaps="false"
+                android:text="探索RecyclerView"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:onClick="studyWebView"
+                android:textAllCaps="false"
+                android:text="WebView不是那么简单"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

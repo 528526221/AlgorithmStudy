@@ -138,6 +138,14 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
 
     public void studyZxing(View view) {
         startActivity(new Intent(this,QrCodeScanActivity.class));
+    }
+
+    public void studyRecyclerView(View view) {
+        startActivity(new Intent(this,RecyclerViewActivity.class));
+    }
+
+    public void studyWebView(View view) {
+        startActivity(new Intent(this,StudyWebViewActivity.class));
 
     }
 }

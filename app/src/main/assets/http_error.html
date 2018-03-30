@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>HttpError页面</title>
+    <style>
+			body {
+				text-align: center;
+			}
+
+			#tip1 {
+				color: #999999;
+				font-size: small;
+			}
+
+			#tip2 {
+				color: #333333;
+				font-size: large;
+			}
+
+			.button {
+				background-color: #5B6CCC;
+				border: none;
+				color: white;
+				padding: 8px 0px;
+				text-align: center;
+				text-decoration: none;
+				font-size: 16px;
+				width: 80%;
+				border-radius: 3px;
+				margin-bottom: 16px;
+			}
+
+			.button:focus {
+				outline: none;
+			}
+		</style>
+    <script>
+			function loadAgain() {
+				window.webclick.loadAgain();
+			}
+
+			function showMe() {
+                /*约定的url协议为：js://webview?name=xulc&age=27*/
+                document.location = "js://webview?name=xulc&age=27";
+            }
+
+			function setTip() {
+				<!--alert("Android调用了JS的callJS方法");-->
+				document.getElementById("tip2").innerHTML = "Hello JavaScript";
+			}
+		</script>
+</head>
+
+<body>
+<img src="img/net_refresh_emotion.png" width="50%" />
+<p id="tip1">网络不稳定，请稍后再试(-1)</p>
+<p id="tip2">请重新刷新试试</p>
+<button class="button" onclick="loadAgain()">重新刷新</button>
+<button class="button" onclick="showMe()">你是谁</button>
+
+</body>
+
+</html>
