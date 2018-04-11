@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 // 依赖插件脚本
-apply from: 'tinker-support.gradle'
+//apply from: 'tinker-support.gradle'
 android {
     signingConfigs {
         release {

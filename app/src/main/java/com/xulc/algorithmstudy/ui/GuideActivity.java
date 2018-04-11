@@ -3,6 +3,7 @@ package com.xulc.algorithmstudy.ui;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.AssetManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -69,7 +70,30 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
         } catch (InvocationTargetException e) {
             e.printStackTrace();
         }
+
+        try {
+            Class cls = Class.forName("android.content.res.AssetManager");
+            AssetManager assetManager = (AssetManager) cls.newInstance();
+            Method method = cls.getDeclaredMethod("addAssetPath",String.class);
+            method.invoke(assetManager,"");
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+
+        Field field;
+//        GuideActivity.class.getClass()
+
+
     }
+
 
     public void openMain(View view) {
         startActivity(new Intent(this,MainActivity.class));
@@ -146,10 +170,10 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
 
     public void studyWebView(View view) {
         startActivity(new Intent(this,StudyWebViewActivity.class));
-
     }
 
     public void testBuglyTinker(View view) {
         startActivity(new Intent(this,TestBuglyTinkerActivity.class));
     }
+
 }

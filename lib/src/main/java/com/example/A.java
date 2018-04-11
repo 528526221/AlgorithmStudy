@@ -6,9 +6,14 @@ package com.example;
  * Created by xuliangchun.
  */
 
-public class A {
-    protected Number test() throws Exception{
-        return 1;
+public class A<T> {
+    private T t;
+
+    public T getT() {
+        return t;
     }
 
+    public void setT(T t) {
+        this.t = t;
+    }
 }

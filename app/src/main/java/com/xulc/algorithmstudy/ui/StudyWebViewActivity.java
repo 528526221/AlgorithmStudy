@@ -47,7 +47,7 @@ public class StudyWebViewActivity extends BaseActivity {
     private TextView tvTitle;
     private ProgressBar progressBar;
     //    private final String url = "http://api.ytx5.com/ylf/trade/order";
-    private final String url = "http://ytx.com";
+    private final String url = "https://app.ytx.com/download";
     private Button btnEvaluteJs;
 
     private boolean isNeedClearHistory;
@@ -161,7 +161,7 @@ public class StudyWebViewActivity extends BaseActivity {
             @Override
             public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
                 super.onReceivedSslError(view, handler, error);
-//                handler.proceed();
+                handler.proceed();
                 Log.i("xlc", "onReceivedSslError：");
 
             }

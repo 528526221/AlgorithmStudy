@@ -1,21 +1,20 @@
 package com.example;
 
 /**
- * Date：2018/1/3
+ * Date：2018/4/8
  * Desc：
  * Created by xuliangchun.
  */
 
-public class B extends A<Number> {
+public class C extends A{
     private Number n;
-
     @Override
     public Number getT() {
         return n;
     }
-
-    @Override
+//    @Override
     public void setT(Number n) {
         this.n = n;
+        System.out.print(A.class);
     }
 }

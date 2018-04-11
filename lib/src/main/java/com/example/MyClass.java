@@ -14,6 +14,6 @@ public class MyClass {
 
 //        SortTestHelper.testSort(MergeSort.class.getName(),b);
 
-
+        OuterClass outerClass = new OuterClass();
     }
 }
