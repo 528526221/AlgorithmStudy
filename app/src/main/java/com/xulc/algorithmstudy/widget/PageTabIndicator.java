@@ -203,7 +203,7 @@ public class PageTabIndicator extends RelativeLayout {
      * @param position
      * @param positionOffset
      */
-    public void startIndicatorOffset(final int position, final float positionOffset) {
+    private void startIndicatorOffset(final int position, final float positionOffset) {
         if (tabCount <= position)
             throw new RuntimeException("Tab titles count can not be less than viewPager counts!");
         this.currentPosition = position;
