@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -11,6 +12,9 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 /**
  * Date：2018/1/11
@@ -23,6 +27,7 @@ public class BaseActivity extends AppCompatActivity {
     private static final int OPEN_APP_DETAIL_CODE = 1;//打开应用详情的code
     private PermissionCallBackListener listener;
     private String[] needPermissions = null;
+
 
     /**
      * 权限回调接口
@@ -152,5 +157,21 @@ public class BaseActivity extends AppCompatActivity {
                 requestRuntimePermission(needPermissions, listener);
             }
         }
+    }
+
+    protected void showLoading(){
+        final ViewGroup decorView = (ViewGroup) getWindow().getDecorView();
+        TextView textView = new TextView(this);
+        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        lp.leftMargin = 400;
+        lp.topMargin = 800;
+        textView.setLayoutParams(lp);
+        textView.setText("加载中/n请稍候...");
+        textView.setBackgroundColor(Color.RED);
+        decorView.addView(textView);
+    }
+
+    protected void hideLoading(){
+
     }
 }

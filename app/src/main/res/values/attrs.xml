@@ -19,4 +19,12 @@
         <attr name="IndicatorTwoTabDistance" format="dimension"/>
         <attr name="IndicatorDrawTabBackground" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="WaveLoadingView">
+        <attr name="WaveBaseLine" format="dimension"/>
+        <attr name="WaveHeight" format="dimension"/>
+        <attr name="WaveColor" format="color"/>
+        <attr name="WaveFastColor" format="color"/>
+        <attr name="WaveCircleThickness" format="dimension"/>
+        <attr name="WaveCircleBackground" format="color"/>
+    </declare-styleable>
 </resources>
