@@ -65,6 +65,7 @@
         <activity android:name=".ui.RecyclerViewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.StudyWebViewActivity" android:screenOrientation="portrait"/>
         <activity android:name=".ui.TestBuglyTinkerActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ui.StudyAddShoppingAnimActivity" android:screenOrientation="portrait"/>
 
         <service android:name=".ui.MyService"
             android:process="com.xulc.aidl.remote"/>

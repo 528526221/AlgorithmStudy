@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <Button
+        android:id="@+id/btnStart1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="起点1"/>
+    <Button
+        android:id="@+id/btnStart2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="100dp"
+        android:layout_below="@+id/btnStart1"
+        android:text="起点2"/>
+    <Button
+        android:id="@+id/btnStart3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnStart2"
+        android:layout_alignParentRight="true"
+        android:text="起点3"/>
+    <Button
+        android:id="@+id/btnStart4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btnStart3"
+        android:layout_marginTop="200dp"
+        android:text="起点4"/>
+    <Button
+        android:id="@+id/btnEnd"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginLeft="100dp"
+        android:layout_alignParentBottom="true"
+        android:text="结束点"/>
+</RelativeLayout>

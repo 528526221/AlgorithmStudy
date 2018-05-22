@@ -176,4 +176,7 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
         startActivity(new Intent(this,TestBuglyTinkerActivity.class));
     }
 
+    public void studyAddShoppingAnim(View view) {
+        startActivity(new Intent(this,StudyAddShoppingAnimActivity.class));
+    }
 }

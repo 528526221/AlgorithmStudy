@@ -57,6 +57,7 @@ dependencies {
     compile 'com.amap.api:location:latest.integration'
     compile "com.android.support:multidex:1.0.1" // 多dex配置
     compile 'com.tencent.bugly:crashreport_upgrade:latest.release'
+    compile 'com.tencent.tinker:tinker-android-lib:latest.release'
     compile 'com.tencent.bugly:nativecrashreport:latest.release'
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     compile 'com.inuker.bluetooth:library:1.4.0'

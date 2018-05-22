@@ -97,6 +97,11 @@
                 android:onClick="testBuglyTinker"
                 android:textAllCaps="false"
                 android:text="Bugly的Tinker测试"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="购物车加购抛物线动画"
+                android:onClick="studyAddShoppingAnim"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
