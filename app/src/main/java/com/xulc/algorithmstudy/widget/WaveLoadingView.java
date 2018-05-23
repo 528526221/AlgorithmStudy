@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 
@@ -34,6 +35,8 @@ public class WaveLoadingView extends View{
     private int waveFastColor;//快浪颜色
     private int waveCircleBackground;//背景色
     private float waveCircleThickness;//圆圈的厚度
+    private boolean waveUpAndDown;//波浪是否上下浪
+    private boolean waveDown;//标记 当前波浪正在往下浪
 
     public WaveLoadingView(Context context) {
         this(context,null);
@@ -46,16 +49,15 @@ public class WaveLoadingView extends View{
         waveHeight = array.getDimension(R.styleable.WaveLoadingView_WaveHeight,0);
         waveColor = array.getColor(R.styleable.WaveLoadingView_WaveColor,Color.WHITE);
         waveFastColor = array.getColor(R.styleable.WaveLoadingView_WaveFastColor,Color.parseColor("#DDDEDE"));
-        waveCircleBackground = array.getColor(R.styleable.WaveLoadingView_WaveCircleBackground,Color.parseColor("#333333"));
+        waveCircleBackground = array.getColor(R.styleable.WaveLoadingView_WaveCircleBackground, ContextCompat.getColor(context,R.color.wave_loading_background));
         waveCircleThickness = array.getDimension(R.styleable.WaveLoadingView_WaveCircleThickness,5);
+        waveUpAndDown = array.getBoolean(R.styleable.WaveLoadingView_WaveUpAndDown,false);
         array.recycle();
 
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setStrokeWidth(waveCircleThickness);
         mPath = new Path();
-
-        this.setBackgroundColor(waveCircleBackground);
     }
 
     @Override
@@ -69,6 +71,10 @@ public class WaveLoadingView extends View{
         if (waveHeight == 0){
             waveHeight = height/10;
         }
+
+//想调整波浪周期随着baseLine的值而改变，暂时先不搞
+//        width = (int) (2*Math.sqrt((width/2)*(width/2)-(width/2-waveBaseLine)*(width/2-waveBaseLine)));
+
         drawCircle(canvas,width,height);
 
 
@@ -80,15 +86,30 @@ public class WaveLoadingView extends View{
 
         drawCircleOutside(canvas,width,height);
 
+        if (waveUpAndDown){
+            if (waveDown){
+                waveBaseLine+=2;
+                if (waveBaseLine>=height-10){
+                    waveDown = false;
+                    waveBaseLine-=2;
+                }
+            }else {
+                waveBaseLine-=2;
+                if (waveBaseLine<=10){
+                    waveDown = true;
+                    waveBaseLine+=2;
+                }
+            }
+        }
 
-        postInvalidateDelayed(10);
+        postInvalidateDelayed(3);
     }
 
 
 
     private void drawCircleOutside(Canvas canvas, int width, int height) {
-        //把圆之外的部分用白色再绘制一遍
-        mPaint.setColor(waveCircleBackground);
+        //下面半圆之外先绘制白色
+        mPaint.setColor(Color.WHITE);
         mPath.reset();
         if (oval == null){
             oval = new RectF(0, 0, width, height);
@@ -98,13 +119,22 @@ public class WaveLoadingView extends View{
         mPath.lineTo(width,height);
         mPath.close();
         canvas.drawPath(mPath,mPaint);
+        //把圆之外的白色部分用背景色再绘制一遍
+        mPaint.setColor(waveCircleBackground);
+        canvas.drawPath(mPath,mPaint);
 
+        //上面半圆之外先绘制白色
+        mPaint.setColor(Color.WHITE);
         mPath.reset();
         mPath.arcTo(oval, 0, -180);
         mPath.lineTo(0,0);
         mPath.lineTo(width,0);
         mPath.close();
         canvas.drawPath(mPath,mPaint);
+        //把圆之外的白色部分用背景色再绘制一遍
+        mPaint.setColor(waveCircleBackground);
+        canvas.drawPath(mPath,mPaint);
+
 
 
     }
@@ -127,7 +157,7 @@ public class WaveLoadingView extends View{
         mPath.close();
         canvas.drawPath(mPath,mPaint);
 
-        startFastx += 2;
+        startFastx += 5;
         if (startFastx>=width*4/6){
             startFastx = 0;
         }
@@ -150,7 +180,7 @@ public class WaveLoadingView extends View{
         mPath.close();
 
         canvas.drawPath(mPath,mPaint);
-        startx += 1;
+        startx += 3;
         if (startx>=width*4/6){
             startx = 0;
         }

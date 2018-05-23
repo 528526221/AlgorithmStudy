@@ -5,5 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="red">#c60219</color>
     <color name="pray">#02b708</color>
+    <color name="wave_loading_background">#cc333333</color>
 
 </resources>

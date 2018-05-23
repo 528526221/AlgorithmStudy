@@ -26,5 +26,6 @@
         <attr name="WaveFastColor" format="color"/>
         <attr name="WaveCircleThickness" format="dimension"/>
         <attr name="WaveCircleBackground" format="color"/>
+        <attr name="WaveUpAndDown" format="boolean"/>
     </declare-styleable>
 </resources>
