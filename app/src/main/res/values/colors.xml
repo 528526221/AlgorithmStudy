@@ -3,8 +3,11 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="red">#c60219</color>
+    <color name="red">#F01400 </color>
+    <color name="red2">#F1847C</color>
+
     <color name="pray">#02b708</color>
     <color name="wave_loading_background">#cc333333</color>
+    <color name="white">#FFFFFF</color>
 
 </resources>

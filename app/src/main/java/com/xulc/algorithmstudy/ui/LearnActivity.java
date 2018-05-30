@@ -12,6 +12,7 @@ import com.xulc.algorithmstudy.adapter.RecyclerViewAdapter;
 import com.xulc.algorithmstudy.widget.StudyFooterView;
 import com.xulc.algorithmstudy.widget.StudyHeaderView;
 import com.xulc.algorithmstudy.widget.StudyRefreshView;
+import com.xulc.algorithmstudy.widget.WaveHeaderView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -47,6 +48,8 @@ public class LearnActivity extends AppCompatActivity {
 
         adapter.notifyDataSetChanged();
         studyRefreshView.setCustomHeaderView(new StudyHeaderView(this));
+        studyRefreshView.setCustomHeaderView(new WaveHeaderView(this));
+
         studyRefreshView.setCustomFooterView(new StudyFooterView(this));
         studyRefreshView.setRefreshLoadListener(new StudyRefreshView.OnRefreshLoadListener() {
             @Override

@@ -28,4 +28,14 @@
         <attr name="WaveCircleBackground" format="color"/>
         <attr name="WaveUpAndDown" format="boolean"/>
     </declare-styleable>
+
+    <declare-styleable name="WaveCircleLoadingView">
+        <attr name="WaveBaseLineHeader" format="dimension"/>
+        <attr name="WaveHeightHeader" format="dimension"/>
+        <attr name="WaveColorHeader" format="color"/>
+        <attr name="WaveFastColorHeader" format="color"/>
+        <attr name="WaveCircleThicknessHeader" format="dimension"/>
+        <attr name="WaveCircleBackgroundHeader" format="color"/>
+        <attr name="WaveUpAndDownHeader" format="boolean"/>
+    </declare-styleable>
 </resources>
