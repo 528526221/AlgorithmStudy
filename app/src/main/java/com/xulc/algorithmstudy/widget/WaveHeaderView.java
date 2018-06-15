@@ -11,16 +11,17 @@ import com.xulc.algorithmstudy.R;
 
 /**
  * Date：2018/5/23
- * Desc：
+ * Desc：波浪刷新header
  * Created by xuliangchun.
  */
 
-public class WaveHeaderView extends LinearLayout implements StudyRefreshView.IHeaderCallBack{
+public class WaveHeaderView extends LinearLayout implements StudyRefreshView.IHeaderCallBack {
     private WaveCircleLoadingView wave;
     private TextView tvLoadTip;
     private boolean isRefreshing;//正在刷新中
+
     public WaveHeaderView(Context context) {
-        this(context,null);
+        this(context, null);
     }
 
     public WaveHeaderView(Context context, @Nullable AttributeSet attrs) {
@@ -30,7 +31,7 @@ public class WaveHeaderView extends LinearLayout implements StudyRefreshView.IHe
     }
 
     private void init(Context mContext) {
-        LayoutInflater.from(mContext).inflate(R.layout.layout_wave_header_view,this,true);
+        LayoutInflater.from(mContext).inflate(R.layout.layout_wave_header_view, this, true);
         wave = findViewById(R.id.wave);
         tvLoadTip = findViewById(R.id.tvLoadTip);
     }
@@ -55,14 +56,15 @@ public class WaveHeaderView extends LinearLayout implements StudyRefreshView.IHe
 
     @Override
     public void onHeaderMove(int headerHeight, int offsetY, StudyRefreshView.Status status) {
-        if (!isRefreshing){
-            wave.setOffsetPercent(Math.min(1.0f,(float)offsetY/headerHeight));
-            if (offsetY==0){
+        if (!isRefreshing) {
+            wave.setOffsetPercent(Math.min(1.0f, (float) offsetY / headerHeight));
+            if (offsetY == 0) {
                 tvLoadTip.setText("下拉刷新");
-            }else if (offsetY>=headerHeight){
+            } else if (offsetY >= headerHeight) {
                 tvLoadTip.setText("松开立即刷新");
-            }else {
+            } else {
                 tvLoadTip.setText("下拉刷新");
             }
-        }    }
+        }
+    }
 }
