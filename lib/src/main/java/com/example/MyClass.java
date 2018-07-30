@@ -42,15 +42,15 @@ public class MyClass extends Apple.SmallApple {
 //        stack.pop();
 //        System.out.print(stack);
 
-        TreeParent<String> queue = new TreeParent<>();
+        TreeChild<String> queue = new TreeChild<>();
         queue.addNode("root",null);
         System.out.print(queue+"\n");
-        TreeParent.Node root = queue.getRootNode();
+        TreeChild.Node root = queue.getRootNode();
         queue.addNode("节点1",root);
         System.out.print("深度为："+queue.deep()+"\n");
         queue.addNode("节点2",root);
         System.out.print("深度为："+queue.deep()+"\n");
-        java.util.List<TreeParent.Node> nodes = queue.getNodeChild(root);
+        java.util.List<TreeChild.Node> nodes = queue.getNodeChild(root);
         System.out.print("第一个子节点："+nodes.get(0)+"\n");
         queue.addNode("节点3",nodes.get(0));
         System.out.print("深度为："+queue.deep()+"\n");
