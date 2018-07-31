@@ -52,7 +52,7 @@ public class TreeChild<E> {
      * @param data
      * @param parent
      */
-    public void addNode(E data,Node parent){
+    public void addNode(E data,Node<E> parent){
         if (nodeNums>nodes.length-1){
             throw new IndexOutOfBoundsException("树已满");
         }
@@ -90,7 +90,7 @@ public class TreeChild<E> {
      * 树的根节点
      * @return
      */
-    public Node getRootNode(){
+    public Node<E> getRootNode(){
         return nodes[0];
     }
 
@@ -99,8 +99,8 @@ public class TreeChild<E> {
      * @param parent
      * @return
      */
-    public List<Node> getNodeChild(Node parent){
-        List<Node> nodeList = new ArrayList<>();
+    public List<Node<E>> getNodeChild(Node<E> parent){
+        List<Node<E>> nodeList = new ArrayList<>();
         SonNode next = parent.first;
         while (next != null){
             nodeList.add(nodes[next.pos]);
@@ -114,10 +114,10 @@ public class TreeChild<E> {
      * @param child
      * @return
      */
-    public Node getNodeParent(Node child){
+    public Node getNodeParent(Node<E> child){
         for (int i=0;i<nodeNums;i++){
-            Node node = nodes[i];
-            List<Node> childs = getNodeChild(node);
+            Node<E> node = nodes[i];
+            List<Node<E>> childs = getNodeChild(node);
             for (int j=0;j<childs.size();j++){
                 if (childs.get(j) == child){
                     return node;
@@ -133,7 +133,7 @@ public class TreeChild<E> {
      * @param index
      * @return
      */
-    public Node getNodeChild(Node parent,int index){
+    public Node getNodeChild(Node<E> parent,int index){
         SonNode next = parent.first;
 
         for (int i=0;next!=null;i++){
@@ -149,7 +149,7 @@ public class TreeChild<E> {
      * @param node
      * @return
      */
-    public int getNodePos(Node node){
+    public int getNodePos(Node<E> node){
         for (int i=0;i<treeSize;i++){
             if (nodes[i] == node){
                 return i;
@@ -166,7 +166,7 @@ public class TreeChild<E> {
         //一直找子节点
         int deep = 0;
         for(int i=0;i<nodeNums;i++){
-            Node node = nodes[i];
+            Node<E> node = nodes[i];
             int currentDeep = 1;
             SonNode next = node.first;
             while (next != null){
