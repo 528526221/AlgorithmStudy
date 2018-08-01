@@ -33,6 +33,7 @@ public class Apple extends Fruit{
 
     }
 
+
     @Override
     public int hashCode() {
         return name != null ? name.hashCode() : 0;

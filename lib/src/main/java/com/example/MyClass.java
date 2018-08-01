@@ -42,23 +42,24 @@ public class MyClass extends Apple.SmallApple {
 //        stack.pop();
 //        System.out.print(stack);
 
-        TreeChild<String> queue = new TreeChild<>();
-        queue.addNode("root",null);
-        System.out.print(queue+"\n");
-        TreeChild.Node root = queue.getRootNode();
-        queue.addNode("节点1",root);
-        System.out.print("深度为："+queue.deep()+"\n");
-        queue.addNode("节点2",root);
-        System.out.print("深度为："+queue.deep()+"\n");
-        java.util.List<TreeChild.Node> nodes = queue.getNodeChild(root);
-        System.out.print("第一个子节点："+nodes.get(0)+"\n");
-        queue.addNode("节点3",nodes.get(0));
-        System.out.print("深度为："+queue.deep()+"\n");
+        ThreeLinkBinTree<String> binTree = new ThreeLinkBinTree<>("根节点");
+        ThreeLinkBinTree.TreeNode tn1 = binTree.addNode(binTree.getRoot(),"第2层左节点",true);
+        ThreeLinkBinTree.TreeNode tn2 = binTree.addNode(binTree.getRoot(),"第2层右节点",false);
+        ThreeLinkBinTree.TreeNode tn3 = binTree.addNode(tn2,"第3层左节点",true);
+        ThreeLinkBinTree.TreeNode tn4 = binTree.addNode(tn2,"第3层右节点",false);
+        ThreeLinkBinTree.TreeNode tn5 = binTree.addNode(tn3,"第4层左节点",true);
+
+        System.out.print("tn2的左子节点 ： "+binTree.leftChild(tn2)+"\n");
+        System.out.print("tn2的右子节点 ： "+binTree.rightChild(tn2)+"\n");
+        System.out.print("tn3的父节点 ： "+binTree.getParent(tn3)+"\n");
+
+        System.out.print("深度为："+binTree.deep()+"\n");
 
 
 
 
     }
+
 
 
 }
