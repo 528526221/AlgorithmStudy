@@ -173,6 +173,10 @@ public class ThreeLinkBinTree<T> {
 
 
     /**
+     * 深度优先遍历中，是以根节点的遍历时机来区分的，先处理根节点就是先序遍历，其次处理根节点就是中序遍历，最后处理根节点就是后序遍历
+     */
+
+    /**
      * 先序遍历 DLR
      * @return
      */
@@ -222,6 +226,36 @@ public class ThreeLinkBinTree<T> {
         }
         list.add(node);
 
+        return list;
+    }
+
+    /**
+     * 利用队列的FIFO特性来实现广度优先遍历（按层遍历）
+     * 返回特殊值的版本和抛出异常的版本 添加  删除  访问front元素
+     * offer和add
+     * poll和remove
+     * peek和element
+     * @return
+     */
+    public List<TreeNode> breadthFirst(){
+        Queue<TreeNode> queue = new ArrayDeque<>();
+        List<TreeNode> list = new ArrayList<>();
+        if (root != null){
+            queue.offer(root);
+        }
+        while (!queue.isEmpty()){
+            //将队列front端元素加入到list
+            list.add(queue.peek());
+            //将队列front端元素从队列中移除
+            TreeNode treeNode = queue.poll();
+            //左右子节点不为空，则加入队列
+            if (treeNode.left != null){
+                queue.offer(treeNode.left);
+            }
+            if (treeNode.right != null){
+                queue.offer(treeNode.right);
+            }
+        }
         return list;
     }
 
