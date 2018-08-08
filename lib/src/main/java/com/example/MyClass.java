@@ -41,22 +41,34 @@ public class MyClass extends Apple.SmallApple {
 //        }
 //        stack.pop();
 //        System.out.print(stack);
+//
+//        ThreeLinkBinTree<String> binTree = new ThreeLinkBinTree<>("根节点");
+//        ThreeLinkBinTree.TreeNode tn1 = binTree.addNode(binTree.getRoot(),"第2层左节点",true);
+//        ThreeLinkBinTree.TreeNode tn2 = binTree.addNode(binTree.getRoot(),"第2层右节点",false);
+//        ThreeLinkBinTree.TreeNode tn3 = binTree.addNode(tn2,"第3层左节点",true);
+//        ThreeLinkBinTree.TreeNode tn4 = binTree.addNode(tn2,"第3层右节点",false);
+//        ThreeLinkBinTree.TreeNode tn5 = binTree.addNode(tn3,"第4层左节点",true);
+//
+//        System.out.print("tn2的左子节点 ： "+binTree.leftChild(tn2)+"\n");
+//        System.out.print("tn2的右子节点 ： "+binTree.rightChild(tn2)+"\n");
+//        System.out.print("tn3的父节点 ： "+binTree.getParent(tn3)+"\n");
+//
+//        System.out.print("深度为："+binTree.deep()+"\n");
 
-        ThreeLinkBinTree<String> binTree = new ThreeLinkBinTree<>("根节点");
-        ThreeLinkBinTree.TreeNode tn1 = binTree.addNode(binTree.getRoot(),"第2层左节点",true);
-        ThreeLinkBinTree.TreeNode tn2 = binTree.addNode(binTree.getRoot(),"第2层右节点",false);
-        ThreeLinkBinTree.TreeNode tn3 = binTree.addNode(tn2,"第3层左节点",true);
-        ThreeLinkBinTree.TreeNode tn4 = binTree.addNode(tn2,"第3层右节点",false);
-        ThreeLinkBinTree.TreeNode tn5 = binTree.addNode(tn3,"第4层左节点",true);
+        SortedBinTree<Integer> tree = new SortedBinTree<Integer>(5);
+        tree.add(20);
+        tree.add(10);
+        tree.add(3);
+        tree.add(8);
+        tree.add(15);
+        tree.add(30);
+        tree.add(40);
 
-        System.out.print("tn2的左子节点 ： "+binTree.leftChild(tn2)+"\n");
-        System.out.print("tn2的右子节点 ： "+binTree.rightChild(tn2)+"\n");
-        System.out.print("tn3的父节点 ： "+binTree.getParent(tn3)+"\n");
+        System.out.print("深度为："+tree.breadthFirst()+"\n");
 
-        System.out.print("深度为："+binTree.deep()+"\n");
+        tree.remove(20);
 
-
-
+        System.out.print("深度为："+tree.breadthFirst()+"\n");
 
     }
 
