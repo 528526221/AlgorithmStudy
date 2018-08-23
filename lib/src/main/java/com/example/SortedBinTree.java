@@ -63,6 +63,7 @@ public class SortedBinTree<T extends Comparable> {
 
     /**
      * 添加节点
+     * 从根节点开始，遇到键值较大则向左，遇到键值较小则向右，直到尾端即插入点
      * @param data
      */
     public void add(T data){

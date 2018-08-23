@@ -38,4 +38,12 @@
         <attr name="WaveCircleBackgroundHeader" format="color"/>
         <attr name="WaveUpAndDownHeader" format="boolean"/>
     </declare-styleable>
+    <declare-styleable name="CircleProgressView">
+        <attr name="LightColor" format="color"/>
+        <attr name="DarkColor" format="color"/>
+        <attr name="CircleRadius" format="dimension"/>
+        <attr name="ScaleValue" format="integer"/>
+        <attr name="Thickness" format="dimension"/>
+        <attr name="BallRadius" format="dimension"/>
+    </declare-styleable>
 </resources>

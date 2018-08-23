@@ -9,5 +9,7 @@
     <color name="pray">#02b708</color>
     <color name="wave_loading_background">#cc333333</color>
     <color name="white">#FFFFFF</color>
+    <color name="darkColor">#716f6f</color>
+    <color name="lightColor">#108edc</color>
 
 </resources>

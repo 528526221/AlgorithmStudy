@@ -180,4 +180,8 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
         startActivity(new Intent(this,StudyAddShoppingAnimActivity.class));
 //        showLoading();
     }
+
+    public void studyCircleProgressView(View view) {
+        startActivity(new Intent(this,StudyCircleProgressViewActivity.class));
+    }
 }
