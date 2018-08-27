@@ -10,9 +10,7 @@ import android.support.v7.widget.RecyclerView;
 import com.xulc.algorithmstudy.R;
 import com.xulc.algorithmstudy.adapter.RecyclerViewAdapter;
 import com.xulc.algorithmstudy.widget.StudyFooterView;
-import com.xulc.algorithmstudy.widget.StudyHeaderView;
 import com.xulc.algorithmstudy.widget.StudyRefreshView;
-import com.xulc.algorithmstudy.widget.WaveHeaderView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,14 +39,16 @@ public class LearnActivity extends AppCompatActivity {
         adapter = new RecyclerViewAdapter(this,strings);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
+        studyRefreshView.setCanLoadMore(false);
+//        studyRefreshView.setCanRefresh(false);
 
-        for (int i=0;i<15;i++){
+        for (int i=0;i<20;i++){
             strings.add("TEST"+i);
         }
 
         adapter.notifyDataSetChanged();
-        studyRefreshView.setCustomHeaderView(new StudyHeaderView(this));
-        studyRefreshView.setCustomHeaderView(new WaveHeaderView(this));
+//        studyRefreshView.setCustomHeaderView(new StudyHeaderView(this));
+//        studyRefreshView.setCustomHeaderView(new WaveHeaderView(this));
 
         studyRefreshView.setCustomFooterView(new StudyFooterView(this));
         studyRefreshView.setRefreshLoadListener(new StudyRefreshView.OnRefreshLoadListener() {
@@ -58,7 +58,7 @@ public class LearnActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         strings.clear();
-                        for (int i=0;i<15;i++){
+                        for (int i=0;i<20;i++){
                             strings.add("TEST"+i);
                         }
 

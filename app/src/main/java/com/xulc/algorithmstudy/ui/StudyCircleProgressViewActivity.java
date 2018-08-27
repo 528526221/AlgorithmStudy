@@ -11,7 +11,7 @@ import com.xulc.algorithmstudy.R;
  * Created by xulc.
  */
 
-class StudyCircleProgressViewActivity extends BaseActivity{
+public class StudyCircleProgressViewActivity extends BaseActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

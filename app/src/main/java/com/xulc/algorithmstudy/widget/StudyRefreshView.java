@@ -22,7 +22,7 @@ import com.xulc.algorithmstudy.R;
 
 /**
  * Date：2017/12/14
- * Desc：参照CSDN博客编写，做了部分改动
+ * Desc：参照CSDN博客编写
  * 地址：http://blog.csdn.net/u013647382/article/details/58092102?utm_source=tuicool&utm_medium=referral
  * Created by xuliangchun.
  */
@@ -48,7 +48,6 @@ public class StudyRefreshView extends ViewGroup {
     private int dampingCoefficient = 2;//拉到临界点后的阻尼系数,默认为2，代表临界点是非临界点的2倍
     private boolean canRefresh = true;//是否支持下拉刷新
     private boolean canLoadMore = true;//是否支持上拉加载
-
 
     public StudyRefreshView(Context context) {
         this(context, null);
@@ -81,6 +80,7 @@ public class StudyRefreshView extends ViewGroup {
 
     /**
      * 设置临界点阻尼系数
+     *
      * @param dampingCoefficient
      */
     public void setDampingCoefficient(int dampingCoefficient) {
@@ -89,6 +89,7 @@ public class StudyRefreshView extends ViewGroup {
 
     /**
      * 设置是否支持下拉刷新  默认支持
+     *
      * @param canRefresh
      */
     public void setCanRefresh(boolean canRefresh) {
@@ -98,6 +99,7 @@ public class StudyRefreshView extends ViewGroup {
 
     /**
      * 设置是否支持上拉加载 默认支持
+     *
      * @param canLoadMore
      */
     public void setCanLoadMore(boolean canLoadMore) {
@@ -166,7 +168,6 @@ public class StudyRefreshView extends ViewGroup {
                 mFooter = customFooterView;
                 footerCallBack = (IFooterCallBack) mFooter;
                 addView(mFooter, 2, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
             }
         } else {
             throw new RuntimeException("The custom footer view must implementes IFooterCallBack");
@@ -216,59 +217,18 @@ public class StudyRefreshView extends ViewGroup {
 
     @Override
     public boolean onTouchEvent(MotionEvent event) {
-
-        if (mStatus == Status.REFRESHING || mStatus == Status.LOADING){
+        if (mStatus == Status.REFRESHING || mStatus == Status.LOADING) {
             return true;
         }
         int y = (int) event.getY();
 
-        switch (event.getAction()){
+        switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
                 mLastMoveY = y;
                 break;
             case MotionEvent.ACTION_MOVE:
                 int dy = mLastMoveY - y;
-
-                if (dy<=0&&getScrollY() <= -headViewHeight){
-                    scrollBy(0, dy /(3 *dampingCoefficient) );
-                }else if (dy>=0&&getScrollY() >= footViewHeight){
-                    scrollBy(0, dy / (3 *dampingCoefficient));
-                }else {
-                    //控制是否支持上拉或者下拉的操作只要在这里做就可以了
-                    //在canRefresh的情况下能够scrollBy的条件有2个：dy<0;dy虽然大于0处于上拉操作但是整体的偏移量是负值（下拉头部出来了）
-                    if (canRefresh && canLoadMore){
-                        scrollBy(0, dy / 3);
-                    }else if (canRefresh){
-                        if (dy<=0){
-                            scrollBy(0, dy / 3);
-                        }else if (getScrollY()<0){
-                            scrollBy(0, Math.min(dy,Math.abs(getScrollY())) / 3);
-                        }
-                    }else if (canLoadMore){
-                        if (dy>=0){
-                            scrollBy(0, dy / 3);
-                        }else if (getScrollY()>0){
-                            scrollBy(0, -Math.min(getScrollY(),Math.abs(dy)) / 3);
-                        }
-                    }
-                }
-//                if (getScrollY() <= 0 && dy <= 0) {
-//                    // 一直在下拉
-//                    if (getScrollY() <= -headViewHeight) {
-//                        scrollBy(0, dy / 10);
-//                    } else {
-//                        scrollBy(0, dy / 3);
-//                    }
-//                } else if (getScrollY() >= 0 && dy >= 0) {
-//                    // 一直在上拉
-//                    if (getScrollY() >= footViewHeight) {
-//                        scrollBy(0, dy / 10);
-//                    } else {
-//                        scrollBy(0, dy / 3);
-//                    }
-//                } else {
-//                    scrollBy(0, dy / 3);
-//                }
+                startScrollBy(dy, event);
                 updateHeader();
                 updateFooter();
                 break;
@@ -276,10 +236,10 @@ public class StudyRefreshView extends ViewGroup {
                 if (getScrollY() <= -headViewHeight) {
                     // 下拉刷新，并且到达有效长度
                     startRefresh();
-                }else if (getScrollY() >= footViewHeight) {
+                } else if (getScrollY() >= footViewHeight) {
                     // 上拉加载更多，达到有效长度
                     startLoadMore();
-                }else {
+                } else {
                     //重置状态
                     resetHeaderNormal();
                     resetFooterNormal();
@@ -293,20 +253,84 @@ public class StudyRefreshView extends ViewGroup {
 
     }
 
+    /**
+     * 处理本次滑动偏移
+     *
+     * @param dy
+     * @param motionEvent
+     */
+    private void startScrollBy(int dy, MotionEvent motionEvent) {
+        if (dy < 0) {
+            //下拉
+            if (getScrollY() <= -headViewHeight) {
+                scrollBy(0, dy / (3 * dampingCoefficient));//拉出完整header继续下拉
+            } else if (getScrollY() <= 0) {
+                if (canRefresh) {
+                    scrollBy(0, dy / 3);//下拉header
+                } else {
+                    createDownAction(motionEvent);
+                }
+            } else if (getScrollY() > 0) {
+                if (dy / 3 + getScrollY() <= 0) {
+                    //预判如果加上即将滑动的dy就刚好到达临界值时(footer刚好消失),就直接滚动到该临界位置
+                    scrollBy(0, -getScrollY());
+                    createDownAction(motionEvent);
+                } else {
+                    scrollBy(0, dy / 3);
+                }
+            }
+        } else {
+            //上拉
+            if (getScrollY() >= footViewHeight) {
+                scrollBy(0, dy / (3 * dampingCoefficient));//拉出完整footer继续上拉
+            } else if (getScrollY() >= 0) {
+                if (canLoadMore) {
+                    scrollBy(0, dy / 3);//上拉footer
+                } else {
+                    createDownAction(motionEvent);
+                }
+            } else if (getScrollY() < 0) {
+                if (dy / 3 + getScrollY() >= 0) {
+                    //预判如果加上即将滑动的dy就刚好到达临界值时(header刚好消失),就直接滚动到该临界位置
+                    scrollBy(0, -getScrollY());
+                    createDownAction(motionEvent);
+                } else {
+                    scrollBy(0, dy / 3);
+                }
+            }
+        }
+    }
+
+    /**
+     * 创建一个Action_Down重新分发,激活事件序列
+     *
+     * @param motionEvent
+     */
+    private void createDownAction(MotionEvent motionEvent) {
+        MotionEvent event = MotionEvent.obtain(motionEvent);
+        event.setAction(MotionEvent.ACTION_DOWN);
+        event.setEdgeFlags(-1);//自发序列 标记-1
+        dispatchTouchEvent(event);
+    }
+
+    boolean isSelfDownAction;
+
     private float mDownX;
     private float mDownY;
+
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (mStatus == Status.REFRESHING || mStatus == Status.LOADING){
+        if (mStatus == Status.REFRESHING || mStatus == Status.LOADING) {
             return false;
         }
         boolean isNeedIntercept = false;//是否需要拦截传递给内容view的touch事件
-        switch (ev.getAction()){
+        switch (ev.getAction()) {
 
             case MotionEvent.ACTION_DOWN:
                 mLastMoveY = (int) ev.getY();
                 mDownX = ev.getX();
                 mDownY = ev.getRawY();
+                isSelfDownAction = ev.getEdgeFlags() == -1;
                 break;
             case MotionEvent.ACTION_MOVE:
                 //解决轮播滑动冲突
@@ -316,20 +340,24 @@ public class StudyRefreshView extends ViewGroup {
                 if (isHorizon) {
                     //这种情况下不要拦截
                     isNeedIntercept = false;
-                }else {
+                } else {
                     int currentY = (int) ev.getY();
-                    if (currentY> mLastMoveY){
+                    if (currentY > mLastMoveY) {
                         //下滑 判断是否需要拦截（判断第一个child是否滑倒最上面）
                         View child = getChildAt(0);
                         isNeedIntercept = getRefreshIntercept(child);
-
-                    }else if (currentY< mLastMoveY){
+                    } else if (currentY < mLastMoveY) {
                         //上滑 判断是否需要拦截（判断最后一个child是否滑动最底部）
                         View child = getChildAt(0);
                         isNeedIntercept = getLoadMoreIntercept(child);
                     }
                 }
-
+                break;
+            case MotionEvent.ACTION_UP:
+                //自发序列不做处理
+                if (isSelfDownAction) {
+                    isNeedIntercept = true;
+                }
                 break;
         }
         mLastMoveY = (int) ev.getY();
@@ -435,12 +463,12 @@ public class StudyRefreshView extends ViewGroup {
     public void updateHeader() {
         int scrollY = Math.abs(getScrollY());
         if (headerCallBack != null) {
-            headerCallBack.onHeaderMove(headViewHeight, scrollY,mStatus);
+            headerCallBack.onHeaderMove(headViewHeight, scrollY, mStatus);
         } else {
             if (scrollY >= headViewHeight) {
                 mHeaderText.setText("松开刷新");
                 if (mHeaderArrow.getTag() == null) {
-                    ObjectAnimator icon_anim = ObjectAnimator.ofFloat(mHeaderArrow, "rotation", 0F, -180F);//设置Y
+                    ObjectAnimator icon_anim = ObjectAnimator.ofFloat(mHeaderArrow, "rotation", 0F, 180F);//设置Y
                     icon_anim.setDuration(250);
                     icon_anim.start();
                     mHeaderArrow.setTag("1");
@@ -449,7 +477,7 @@ public class StudyRefreshView extends ViewGroup {
             } else {
                 mHeaderText.setText("下拉刷新");
                 if (mHeaderArrow.getTag() != null && mHeaderArrow.getTag().toString().equals("1")) {
-                    ObjectAnimator icon_anim = ObjectAnimator.ofFloat(mHeaderArrow, "rotation", -180F, 0F);//设置Y
+                    ObjectAnimator icon_anim = ObjectAnimator.ofFloat(mHeaderArrow, "rotation", 180F, 360F);//设置Y
                     icon_anim.setDuration(250);
                     icon_anim.start();
                     mHeaderArrow.setTag(null);
@@ -486,7 +514,7 @@ public class StudyRefreshView extends ViewGroup {
         } else {
             mHeaderText.setText("下拉刷新");
             mHeaderArrow.setVisibility(VISIBLE);
-            mHeaderProgressBar.setVisibility(GONE);
+            mHeaderProgressBar.setVisibility(INVISIBLE);
             mHeaderArrow.setRotation(0f);
 
         }
@@ -518,11 +546,11 @@ public class StudyRefreshView extends ViewGroup {
 
         startSlowScroll(getScrollY(), -(getScrollY() + headViewHeight));
         if (headerCallBack != null) {
-            headerCallBack.onStateRefresh(headViewHeight,mStatus);
+            headerCallBack.onStateRefresh(headViewHeight, mStatus);
         } else {
             mHeaderProgressBar.setVisibility(VISIBLE);
-            mHeaderArrow.setVisibility(GONE);
-            mHeaderText.setText("正在刷新");
+            mHeaderArrow.setVisibility(INVISIBLE);
+            mHeaderText.setText("正在刷新...");
         }
         if (refreshLoadListener != null)
             refreshLoadListener.onRefresh();
@@ -543,7 +571,7 @@ public class StudyRefreshView extends ViewGroup {
             if (footerCallBack != null) {
                 footerCallBack.onStateLoading(footViewHeight);
             } else {
-                mFooterText.setText("正在加载");
+                mFooterText.setText("正在加载...");
                 mFooterProgressBar.setVisibility(VISIBLE);
             }
             if (refreshLoadListener != null)
@@ -609,7 +637,7 @@ public class StudyRefreshView extends ViewGroup {
             scrollTo(mScroller.getCurrX(), mScroller.getCurrY());
             postInvalidate();
             if (headerCallBack != null)
-                headerCallBack.onHeaderMove(headViewHeight, Math.abs(getScrollY()),mStatus);
+                headerCallBack.onHeaderMove(headViewHeight, Math.abs(getScrollY()), mStatus);
         }
     }
 
@@ -624,13 +652,13 @@ public class StudyRefreshView extends ViewGroup {
 
 
     public interface IHeaderCallBack {
-        void onStateRefresh(int headerHeight,Status status);//正在刷新
+        void onStateRefresh(int headerHeight, Status status);//正在刷新
 
         void onStateNormal(Status status);//初始状态
 
         void onStateFinish(Status status);//刷新完成
 
-        void onHeaderMove(int headerHeight, int offsetY,Status status);//下拉header
+        void onHeaderMove(int headerHeight, int offsetY, Status status);//下拉header
     }
 
     public interface IFooterCallBack {
