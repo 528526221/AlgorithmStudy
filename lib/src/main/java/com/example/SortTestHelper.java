@@ -32,7 +32,7 @@ public class SortTestHelper {
     public static <T> void printResult(T[] arr){
         //打印数组中的值
         for (T anArr : arr) {
-            System.out.print(anArr.toString() + "\n");
+            System.out.print(anArr.toString() + ",");
         }
         System.out.print("\n");
     }
