@@ -115,7 +115,7 @@ public class SortStudy {
     }
 
     /**
-     * 插入排序：直接插入排序
+     * 插入排序：直接插入排序、折半插入排序、shell排序
      *
      * @param data
      */
@@ -130,7 +130,6 @@ public class SortStudy {
                     data[j + 1] = data[j];//大就往后挪
                 }
                 data[j + 1] = temp;
-
                 //选出j的位置，再进行挪位
 //                while (j>=0){
 //                    if (temp>data[j]){
@@ -157,36 +156,36 @@ public class SortStudy {
             int start = 0;
             int end = i-1;
             int half ;
-            while (true){
-                if (start+1>=end){
-                    //不能折半了之后，考虑比start小，比end大，在start和end之间
-                    if (temp<data[start]){
-                        //start往后挪
-                        for (int k=i-1;k>=start;k--){
-                            data[k+1] = data[k];
-                        }
-                        data[start] = temp;
-                    }else if (temp<data[end]){
-                        //end往后挪
-                        for (int k=i-1;k>=end;k--){
-                            data[k+1] = data[k];
-                        }
-                        data[end] = temp;
-                    }
-
-                    break;
-                }else {
-                    half = (start+end)/2;
-                    if (temp>data[half]){
-                        start = half+1;
-                    }else {
-                        end = half-1;
-                    }
+            while (start<=end){
+                half = (start+end)/2;
+                if (temp<data[half]){
+                    end = half-1;
+                }else if (temp>data[half]){
+                    start = half+1;
                 }
             }
+            for (int j=i-1;j>=start;j--){
+                data[j+1] = data[j];
+            }
+            data[start] = temp;
+
             printResult(data);
 
         }
+    }
+
+
+    private static void shellSort(Integer[] data){
+        //确定h序列的最大值
+        int h =1;
+        while (h <= data.length/3){
+            h = 3*h + 1;
+        }
+        while (h>0){
+
+
+        }
+
     }
 
 
