@@ -79,7 +79,7 @@ public class BleConnectChatManager {
 
 
     private void sendHandlerStatus(int what, int status) {
-        Message message = new Message();
+        Message message = Message.obtain();
         message.what = what;
         Bundle bundle = new Bundle();
         bundle.putInt("data",status);
@@ -87,7 +87,7 @@ public class BleConnectChatManager {
         handler.sendMessage(message);
     }
     private void sendHandlerMessage(int what, byte[] bytes) {
-        Message message = new Message();
+        Message message = Message.obtain();
         message.what = what;
         Bundle bundle = new Bundle();
         bundle.putByteArray("data",bytes);

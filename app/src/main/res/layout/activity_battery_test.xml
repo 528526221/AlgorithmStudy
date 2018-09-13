@@ -14,9 +14,20 @@
         android:layout_height="wrap_content"
         android:text="打开白名单列表"
         android:onClick="openWhiteList"/>
+    <RelativeLayout
+        android:id="@+id/rlTest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="请求加入白名单"
+            android:onClick="addToWhiteList"/>
+    </RelativeLayout>
+
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="请求加入白名单"
-        android:onClick="addToWhiteList"/>
+        android:onClick="testTransition"
+        android:text="测试动画"/>
 </LinearLayout>
