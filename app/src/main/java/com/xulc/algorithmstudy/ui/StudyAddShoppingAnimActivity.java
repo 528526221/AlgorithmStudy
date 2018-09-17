@@ -16,7 +16,7 @@ import com.xulc.algorithmstudy.util.AddShoppingAnimUtil;
  */
 
 public class StudyAddShoppingAnimActivity extends BaseActivity implements View.OnClickListener, AddShoppingAnimUtil.AddShoppingAnimListener {
-    private Button btnStart1,btnStart2,btnStart3,btnStart4,btnEnd;
+    private Button btnStart1,btnStart2,btnStart3,btnEnd;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,13 +24,11 @@ public class StudyAddShoppingAnimActivity extends BaseActivity implements View.O
         btnStart1 = (Button) findViewById(R.id.btnStart1);
         btnStart2 = (Button) findViewById(R.id.btnStart2);
         btnStart3 = (Button) findViewById(R.id.btnStart3);
-        btnStart4 = (Button) findViewById(R.id.btnStart4);
 
         btnEnd = (Button) findViewById(R.id.btnEnd);
         btnStart1.setOnClickListener(this);
         btnStart2.setOnClickListener(this);
         btnStart3.setOnClickListener(this);
-        btnStart4.setOnClickListener(this);
         btnEnd.setOnClickListener(this);
 
     }
@@ -46,9 +44,6 @@ public class StudyAddShoppingAnimActivity extends BaseActivity implements View.O
                 break;
             case R.id.btnStart3:
                 AddShoppingAnimUtil.startAnim(this,btnStart3,btnEnd,1000L,this);
-                break;
-            case R.id.btnStart4:
-                AddShoppingAnimUtil.startAnim(this,btnStart4,btnEnd,1000L,this);
                 break;
             case R.id.btnEnd:
                 AddShoppingAnimUtil.startAnim(this,btnEnd,btnStart3,1000L,this);

@@ -65,5 +65,6 @@ dependencies {
     compile 'com.android.support:support-v4:23.2.1'
     compile project(':myzxing')
 //    compile(name:'myzxing', ext:'aar')
+    compile 'de.hdodenhof:circleimageview:2.2.0'
 
 }

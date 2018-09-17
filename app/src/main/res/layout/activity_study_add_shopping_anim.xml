@@ -1,51 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/wave_loading_background">
-    <Button
-        android:id="@+id/btnStart1"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/wave_loading_background"
+        android:visibility="gone">
+
+        <Button
+            android:id="@+id/btnStart1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="起点1" />
+
+        <Button
+            android:id="@+id/btnStart2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/btnStart1"
+            android:layout_marginLeft="100dp"
+            android:text="起点2" />
+
+        <Button
+            android:id="@+id/btnStart3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/btnStart2"
+            android:text="起点3" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n" />
+
+        <Button
+            android:id="@+id/btnEnd"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginLeft="100dp"
+            android:text="结束点" />
+
+        <com.xulc.algorithmstudy.widget.WaveLoadingView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_centerInParent="true"
+            app:WaveUpAndDown="true" />
+    </RelativeLayout>
+
+    <com.xulc.algorithmstudy.widget.RoundImageView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="起点1"/>
-    <Button
-        android:id="@+id/btnStart2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="100dp"
-        android:layout_below="@+id/btnStart1"
-        android:text="起点2"/>
-    <Button
-        android:id="@+id/btnStart3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnStart2"
-        android:layout_alignParentRight="true"
-        android:text="起点3"/>
-    <Button
-        android:id="@+id/btnStart4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/btnStart3"
-        android:layout_marginTop="200dp"
-        android:text="起点4"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n"/>
-    <Button
-        android:id="@+id/btnEnd"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_marginLeft="100dp"
-        android:layout_alignParentBottom="true"
-        android:text="结束点"/>
-    <com.xulc.algorithmstudy.widget.WaveLoadingView
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_centerInParent="true"
-        app:WaveUpAndDown="true"/>
-</RelativeLayout>
+        android:layout_height="200dp"
+        android:src="@mipmap/zlyh"
+        app:CornerX="10dp"
+        app:CornerY="20dp"
+        android:background="@color/red" />
+</FrameLayout>

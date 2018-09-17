@@ -1,5 +1,8 @@
 package com.example.designpattern.prototype;
 
+import java.util.List;
+import java.util.Vector;
+
 /**
  * Date：2018/9/11
  * Desc：
@@ -8,9 +11,16 @@ package com.example.designpattern.prototype;
 
 public class Client {
     public static void main(String[] args){
-        int num = 2000;
-        while (num > 1000){
-            num = num/2;
+        List<Integer> list = new Vector<>();
+        while (true){
+            list.add(1);
+            if (list.size()==10){
+                break;
+            }
         }
+
+        list.add(1);
+
+        System.out.print(list.toArray());
     }
 }

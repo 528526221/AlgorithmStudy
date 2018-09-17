@@ -46,4 +46,12 @@
         <attr name="Thickness" format="dimension"/>
         <attr name="BallRadius" format="dimension"/>
     </declare-styleable>
+    <declare-styleable name="RoundImageView">
+        <attr name="RoundType">
+            <enum name="circle" value="1"/>
+            <enum name="corner" value="2"/>
+        </attr>
+        <attr name="CornerX" format="dimension"/>
+        <attr name="CornerY" format="dimension"/>
+    </declare-styleable>
 </resources>
