@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.xulc.algorithmstudy.R;
 import com.xulc.algorithmstudy.model.TestReflect;
+import com.xulc.algorithmstudy.widget.RoundImageView;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
@@ -183,5 +184,9 @@ public class GuideActivity extends BaseActivity implements BaseActivity.Permissi
 
     public void studyCircleProgressView(View view) {
         startActivity(new Intent(this,StudyCircleProgressViewActivity.class));
+    }
+
+    public void openRoundImage(View view) {
+        startActivity(new Intent(this,RoundImageActivity.class));
     }
 }

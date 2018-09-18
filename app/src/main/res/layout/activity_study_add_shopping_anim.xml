@@ -10,7 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/wave_loading_background"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <Button
             android:id="@+id/btnStart1"
@@ -38,7 +38,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n" />
+            android:text="12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n12334444444444\n" />
 
         <Button
             android:id="@+id/btnEnd"
@@ -52,22 +52,9 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_centerInParent="true"
-            app:WaveUpAndDown="true" />
+            app:WaveUpAndDown="true"
+            app:WaveCircleThickness="5dp"/>
     </RelativeLayout>
 
-    <com.xulc.algorithmstudy.widget.RoundImageView
-        android:id="@+id/roundIv"
-        android:layout_width="wrap_content"
-        android:layout_height="200dp"
-        android:src="@mipmap/zlyh"
-        app:RoundType="circle"
-        app:CornerY="10dp"
-        app:CornerX="20dp"
-        android:background="@color/red" />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="换图"
-        android:layout_gravity="bottom"
-        android:onClick="changePicture"/>
+
 </FrameLayout>

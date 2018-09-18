@@ -107,6 +107,11 @@
                 android:layout_height="wrap_content"
                 android:text="圆形进度"
                 android:onClick="studyCircleProgressView"/>
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="圆角图片"
+                android:onClick="openRoundImage"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
