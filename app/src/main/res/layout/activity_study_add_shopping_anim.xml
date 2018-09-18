@@ -56,10 +56,18 @@
     </RelativeLayout>
 
     <com.xulc.algorithmstudy.widget.RoundImageView
+        android:id="@+id/roundIv"
         android:layout_width="wrap_content"
         android:layout_height="200dp"
         android:src="@mipmap/zlyh"
-        app:CornerX="10dp"
-        app:CornerY="20dp"
+        app:RoundType="circle"
+        app:CornerY="10dp"
+        app:CornerX="20dp"
         android:background="@color/red" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="换图"
+        android:layout_gravity="bottom"
+        android:onClick="changePicture"/>
 </FrameLayout>
