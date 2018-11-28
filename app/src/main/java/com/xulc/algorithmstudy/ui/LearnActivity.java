@@ -39,7 +39,7 @@ public class LearnActivity extends AppCompatActivity {
         adapter = new RecyclerViewAdapter(this,strings);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
-        studyRefreshView.setCanLoadMore(false);
+//        studyRefreshView.setCanLoadMore(false);
 //        studyRefreshView.setCanRefresh(false);
 
         for (int i=0;i<20;i++){

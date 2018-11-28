@@ -6,6 +6,7 @@ import android.os.Message;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +23,7 @@ import java.util.List;
 
 /**
  * Date：2018/1/30
- * Desc：改造ViewPager使其支持循环
+ * Desc：改造ViewPager使其支持任意个数的View循环
  * Created by xuliangchun.
  */
 
@@ -35,6 +36,7 @@ public class CyclicViewPager<T> extends ViewPager {
     private final int MSG_AUTO_SCROLL = 0;//滚动的Msg
     private Long autoScrollInterval = 3000L;//轮播默认间隔时长
     private SlowScroller mSlowScroller;
+    private boolean singleViewCyclic = true;//单张是否需要循环，默认是
     public CyclicViewPager(Context context) {
         this(context,null);
     }
@@ -133,19 +135,38 @@ public class CyclicViewPager<T> extends ViewPager {
      */
     public void setCyclicModels(List<T> tList, OnCreateViewListener<T> listener){
         if (tList.size() == 0){
-            throw new RuntimeException("The size of the data source can not be 0");
+            return;
         }
+        LayoutInflater mLayoutInflater = LayoutInflater.from(getContext());
         this.viewList.clear();
         for (int i=0;i<tList.size();i++){
-            this.viewList.add(listener.createChildView(tList,i));
+            this.viewList.add(listener.createChildView(tList,i,mLayoutInflater));
         }
-        //为了循环的话 在第0张前面增加一个最后一张，在最后一张后面增加一个第1张
-        //目前发现的第三方少于2张不能正常显示，这样添加的目的是为了创建新的child view
-        this.viewList.add(0,listener.createChildView(tList,tList.size()-1));
-        this.viewList.add(listener.createChildView(tList,0));
-        ViewPagerAdapter adapter = new ViewPagerAdapter();
-        this.setAdapter(adapter);
-        this.setCurrentItem(1);
+        if (tList.size() == 1 && !singleViewCyclic){
+            ViewPagerAdapter adapter = new ViewPagerAdapter();
+            this.setAdapter(adapter);
+            this.setCurrentItem(0);
+        }else {
+            //为了循环的话 在第0张前面增加一个最后一张，在最后一张后面增加一个第1张
+            //目前发现的第三方少于2张不能正常显示，这样添加的目的是为了创建新的child view
+            this.viewList.add(0,listener.createChildView(tList,tList.size()-1,mLayoutInflater));
+            this.viewList.add(listener.createChildView(tList,0,mLayoutInflater));
+            ViewPagerAdapter adapter = new ViewPagerAdapter();
+            this.setAdapter(adapter);
+            this.setCurrentItem(1);
+        }
+
+    }
+
+    /**
+     * 为了满足测试的BT要求 单张不必要循环
+     * @param singleViewCyclic
+     * @param tList
+     * @param listener
+     */
+    public void setCyclicModels(boolean singleViewCyclic,List<T> tList, OnCreateViewListener<T> listener){
+        this.singleViewCyclic = singleViewCyclic;
+        setCyclicModels(tList,listener);
     }
 
 
@@ -154,7 +175,7 @@ public class CyclicViewPager<T> extends ViewPager {
      * @param <T>
      */
     public interface OnCreateViewListener<T>{
-        View createChildView(List<T> tList,int position) ;
+        View createChildView(List<T> tList, int position,LayoutInflater mLayoutInflater) ;
     }
 
     /**
@@ -171,47 +192,46 @@ public class CyclicViewPager<T> extends ViewPager {
      * 开始自动轮播
      */
     public void startAutoScroll() {
-        stopAutoScroll();
         isAutoScroll = true;
-        this.handler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                super.handleMessage(msg);
-                switch (msg.what){
-                    case MSG_AUTO_SCROLL:
-                        if (pageIndex>viewList.size()-1){
-                            setCurrentItem(0);
-                        }else {
-                            setCurrentItem(pageIndex+1);
-                        }
-                        sendScrollMessage();
-                        break;
+        if (handler == null){
+            this.handler = new Handler(){
+                @Override
+                public void handleMessage(Message msg) {
+                    super.handleMessage(msg);
+                    switch (msg.what){
+                        case MSG_AUTO_SCROLL:
+                            if (pageIndex>=viewList.size()-1){
+                                setCurrentItem(0);
+                            }else {
+                                setCurrentItem(pageIndex+1);
+                            }
+                            sendScrollMessage();
+                            break;
+                    }
                 }
-            }
-        };
+            };
+        }
         sendScrollMessage();
     }
 
 
     /**
      * 停止轮播
-     * 在页面关闭时必须执行
      */
-    public void stopAutoScroll() {
-        isAutoScroll = false;
-        if (handler!=null){
+    private void stopAutoScroll() {
+        if (handler != null)
             handler.removeMessages(MSG_AUTO_SCROLL);
-            handler = null;
-        }
-
+        handler = null;
     }
 
     /**
      * 发送轮播消息
      */
     private void sendScrollMessage() {
-        handler.removeMessages(MSG_AUTO_SCROLL);
-        handler.sendEmptyMessageDelayed(MSG_AUTO_SCROLL, autoScrollInterval);
+        if (handler != null){
+            handler.removeMessages(MSG_AUTO_SCROLL);
+            handler.sendEmptyMessageDelayed(MSG_AUTO_SCROLL, autoScrollInterval);
+        }
     }
 
     /**
@@ -222,7 +242,7 @@ public class CyclicViewPager<T> extends ViewPager {
         this.autoScrollInterval = autoScrollInterval;
     }
 
-    private class ViewPagerAdapter extends PagerAdapter{
+    private class ViewPagerAdapter extends PagerAdapter {
 
         @Override
         public int getCount() {
@@ -253,7 +273,7 @@ public class CyclicViewPager<T> extends ViewPager {
     }
 
     /**
-     * 调节下切换界面时的速度 1秒吧
+     * 调节下切换界面时的速度 0.5秒吧
      */
     private class SlowScroller  extends Scroller {
 
@@ -271,12 +291,26 @@ public class CyclicViewPager<T> extends ViewPager {
 
         @Override
         public void startScroll(int startX, int startY, int dx, int dy, int duration) {
-            super.startScroll(startX, startY, dx, dy, 500);
+            super.startScroll(startX, startY, dx, dy, 300);
         }
 
         @Override
         public void startScroll(int startX, int startY, int dx, int dy) {
-            super.startScroll(startX, startY, dx, dy,500);
+            super.startScroll(startX, startY, dx, dy,300);
+        }
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        super.onDetachedFromWindow();
+        stopAutoScroll();
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        if (isAutoScroll){
+            startAutoScroll();
         }
     }
 }

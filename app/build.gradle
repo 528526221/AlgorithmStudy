@@ -17,7 +17,7 @@ android {
         }
     }
     compileSdkVersion 26
-    buildToolsVersion "26.0.2"
+    buildToolsVersion "26.0.1"
     defaultConfig {
         applicationId "com.xulc.algorithmstudy"
         minSdkVersion 18
@@ -62,9 +62,9 @@ dependencies {
     //其中latest.release指代最新版本号，也可以指定明确的版本号，例如2.2.0
     compile 'com.inuker.bluetooth:library:1.4.0'
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'com.android.support:support-v4:23.2.1'
     compile project(':myzxing')
 //    compile(name:'myzxing', ext:'aar')
     compile 'de.hdodenhof:circleimageview:2.2.0'
+
 
 }

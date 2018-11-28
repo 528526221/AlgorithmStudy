@@ -50,6 +50,14 @@ public class StudyTabIndicatorActivity extends AppCompatActivity{
         tabIndicator.setTitles(Arrays.asList(titles));
         tabIndicator.setViewPager(viewPager);
 
+        viewPager.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                viewPager.setCurrentItem(8);
+
+            }
+        },50);
+
 //        DumpHeapHelper.getInstance(this);//模拟内存泄漏
     }
 
