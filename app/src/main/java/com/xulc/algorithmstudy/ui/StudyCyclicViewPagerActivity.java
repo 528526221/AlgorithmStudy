@@ -36,14 +36,16 @@ public class StudyCyclicViewPagerActivity extends BaseActivity{
         viewPager.setCyclicModels(images, new CyclicViewPager.OnCreateViewListener<String>() {
 
             @Override
-            public View createChildView(List<String> strings, int position) {
-                View view = LayoutInflater.from(StudyCyclicViewPagerActivity.this).inflate(R.layout.item_view_pager,null);
+            public View createChildView(List<String> strings, int position, LayoutInflater mLayoutInflater) {
+                View view = mLayoutInflater.inflate(R.layout.item_view_pager,null);
                 ImageView ivTest = view.findViewById(R.id.ivTest);
                 TextView tvTest = view.findViewById(R.id.tvTest);
                 tvTest.setText(String.format("第%d张图片",position));
-                Glide.with(StudyCyclicViewPagerActivity.this).load(images.get(position)).into(ivTest);
+                Glide.with(StudyCyclicViewPagerActivity.this).load(strings.get(position)).into(ivTest);
                 return view;
             }
+
+
         });
         viewPager.setCyclicPageChangeListener(new CyclicViewPager.CyclicPageChangeListener() {
             @Override
@@ -62,11 +64,5 @@ public class StudyCyclicViewPagerActivity extends BaseActivity{
             }
         });
         viewPager.startAutoScroll();
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        viewPager.stopAutoScroll();
     }
 }
